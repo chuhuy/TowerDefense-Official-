@@ -7,17 +7,18 @@ import sample.GameEntity;
 abstract public class Bullet extends GameEntity {
     protected double speed;
     protected double damage;
-    protected boolean hit = false;
+    protected boolean disposed = false;
     protected double x;
     protected double y;
     protected Enemy target;
 
-    public boolean isHit() {
-        return hit;
+    public boolean isDisposed() {
+        return disposed;
     }
-    public void setHit(boolean hit) {
-        this.hit = hit;
+    public void setDisposed(boolean disposed) {
+        this.disposed = disposed;
     }
+
     public double getSpeed() {
         return speed;
     }
