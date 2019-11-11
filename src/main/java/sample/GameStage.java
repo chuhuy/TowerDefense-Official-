@@ -40,7 +40,7 @@ public class GameStage{
         this.level = level;
         enemies.add(new NormalEnemy(spawner.getX(),spawner.getY()));
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
-        gameEntities.addAll(enemies);
+
         gameEntities.add(spawner);
         gameEntities.add(target);
     }
@@ -72,8 +72,8 @@ public class GameStage{
         }
     }
     private void renderEnemy(GraphicsContext gc){
-        for(GameEntity gameEntity : gameEntities){
-            gameEntity.render(gc);
+        for(Enemy enemy : enemies){
+            enemy.render(gc);
         }
     }
     private void renderBullet(GraphicsContext gc){
@@ -81,9 +81,15 @@ public class GameStage{
             bullet.render(gc);
         }
     }
+    private void renderTower(GraphicsContext gc){
+        for(GameEntity gameEntity:gameEntities){
+            gameEntity.render(gc);
+        }
+    }
     public void render(GraphicsContext gc){
         renderMap(gc);
         renderBar(gc);
+        renderTower(gc);
         renderEnemy(gc);
         renderBullet(gc);
 
@@ -91,17 +97,16 @@ public class GameStage{
     public void update(){
         //Enemy Update
         for(GameEntity gameEntity : gameEntities){
-            if(gameEntity instanceof Enemy){
-                if(((Enemy) gameEntity).isAlive()){
-                    gameEntity.update();
-                }
-                else{
-                    gameEntities.remove(gameEntity);
-                }
-            }
-            else
-                gameEntity.update();
+            gameEntity.update();
         }
+
+        enemies.removeIf(Enemy::isDead);
+        for(Enemy enemy : enemies){
+            enemy.update();
+        }
+
+
+        bullets.removeIf(Bullet::isDisposed);
         for(Bullet bullet : bullets){
             bullet.update();
         }

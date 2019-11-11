@@ -77,8 +77,7 @@ public class BossEnemy extends Enemy {
             }
         }
         else{
-            this.setAlive(false);
-            return;
+            this.setDead(true);
         }
     }
 }

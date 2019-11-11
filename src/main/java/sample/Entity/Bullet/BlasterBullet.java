@@ -6,10 +6,11 @@ import sample.Config;
 import sample.Entity.Enemy.Enemy;
 
 public class BlasterBullet extends Bullet {
-    private double T_x = 0;
-    private double T_y = 0;
-    private double E_x = 0;
-    private double E_y = 0;
+    private double T_x ;
+    private double T_y ;
+    private double E_x ;
+    private double E_y ;
+    private int lastingTime;
 
     public BlasterBullet(double x, double y, Enemy target) {
         setDamage(Config.blasterDamage);
@@ -19,6 +20,7 @@ public class BlasterBullet extends Bullet {
         setWidth(Config.bulletSize);
         setHeight(Config.bulletSize);
         setTarget(target);
+        lastingTime = Config.blasterLastingTime;
 
         T_x = x;
         T_y = y;
@@ -35,7 +37,14 @@ public class BlasterBullet extends Bullet {
 
     @Override
     public void update() {
-        this.setX(this.getX() - (T_x - E_x) * this.getSpeed() / 10);
-        this.setY(this.getY() - (T_y - E_y) * this.getSpeed() / 20);
+        if(lastingTime == 0){
+            this.setDisposed(true);
+            target.setHealth(target.getHealth() - this.getDamage());
+        }
+        else {
+            this.setX(this.getX() - (T_x - E_x) * this.getSpeed() / 10);
+            this.setY(this.getY() - (T_y - E_y) * this.getSpeed() / 20);
+            lastingTime--;
+        }
     }
 }

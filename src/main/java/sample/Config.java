@@ -49,8 +49,9 @@ public class Config {
     public final static double ballistaSpeed = 10.0;
     public final static double ballistaDamage = 1.0;
     //Blaster Bullet
-    public final static double blasterSpeed = 8.0;
-    public final static double blasterDamage = 1.0;
+    public final static double blasterSpeed = 2.0;
+    public final static double blasterDamage = 10.0;
+    public final static int blasterLastingTime = 5;
 
     //Cannon Bullet
     public final static double cannonSpeed = 10.0;
@@ -60,7 +61,7 @@ public class Config {
     public final static double catapultSpeed = 10.0;
     public final static double catapultDamage = 1.0;
 
-    public final static double bulletSize = 9.0;
+    public final static double bulletSize = 8.0;
 
 //Spawner Config
     public final static double normalInterval = 10.0;

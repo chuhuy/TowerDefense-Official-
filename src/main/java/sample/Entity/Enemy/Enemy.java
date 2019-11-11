@@ -9,13 +9,13 @@ abstract public class Enemy extends GameEntity {
     protected double speed = 5;
     protected int prize = 0;
     protected DIRECTION direction = DIRECTION.NORTH;
-    protected boolean alive = true;
+    protected boolean dead = false;
 
-    public boolean isAlive() {
-        return alive;
+    public boolean isDead() {
+        return dead;
     }
-    public void setAlive(boolean alive) {
-        this.alive = alive;
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
     public void setDirection(DIRECTION direction) {
         this.direction = direction;
