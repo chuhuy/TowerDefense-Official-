@@ -13,18 +13,16 @@ import java.util.List;
 public class BlasterTower extends Tower {
     private final String baseLvl1 = "towerRound_sampleE_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
-
-    final String tower_E = "024";
-    final String tower_N = "025";
-    final String tower_S = "027";
-    final String tower_W = "026";
+    final String blaster_E = "024";
+    final String blaster_N = "025";
+    final String blaster_S = "027";
+    final String blaster_W = "026";
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
 
     public BlasterTower(double x, double y, List<Enemy> ene, List<Bullet> bu)
     {
-
         Helper helper = new Helper();
         setRange(Config.blasterRange);
         setFireRate(Config.blasterFireRate);
@@ -32,7 +30,6 @@ public class BlasterTower extends Tower {
         setWidth(Config.pixels * 5);
         this.enemies = ene;
         this.bullets = bu;
-
 
         int i = helper.xyToI(x, y);
         int j = helper.xyToJ(x, y);
@@ -58,7 +55,7 @@ public class BlasterTower extends Tower {
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 +".png"), x, y, width, height
         );
         gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + tower_E +".png"), x, y - 15, width, height
+                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E +".png"), x, y - 15, width, height
         );
     }
 

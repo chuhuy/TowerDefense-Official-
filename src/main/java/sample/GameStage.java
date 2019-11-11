@@ -138,7 +138,7 @@ public class GameStage{
                 int i = helper.xyToI(X - 92, Y - 92);
                 int j = helper.xyToJ(X - 92, Y - 92);
                 if(i >= 0 && i <= 19 && j >= 0 && j <= 19){
-                    gameEntities.add(new BallistaTower(X - 92, Y - 92));
+                    gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
                 }
                 eventType = 0;
             }
@@ -156,7 +156,7 @@ public class GameStage{
                 int i = helper.xyToI(X - 92, Y - 92);
                 int j = helper.xyToJ(X - 92, Y - 92);
                 if(i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                    gameEntities.add(new CannonTower(X - 92, Y - 92));
+                    gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
                 }
                 eventType = 0;
             }
@@ -165,7 +165,7 @@ public class GameStage{
                 int i = helper.xyToI(X - 92, Y - 92);
                 int j = helper.xyToJ(X - 92, Y - 92);
                 if(i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                    gameEntities.add(new CatapultTower(X - 92, Y - 92));
+                    gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
                 }
                 eventType = 0;
             }

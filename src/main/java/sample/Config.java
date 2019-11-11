@@ -48,6 +48,8 @@ public class Config {
     //Ballista Bullet
     public final static double ballistaSpeed = 10.0;
     public final static double ballistaDamage = 1.0;
+    public final static int ballistaLastingTime = 5;
+
     //Blaster Bullet
     public final static double blasterSpeed = 2.0;
     public final static double blasterDamage = 10.0;
@@ -56,10 +58,12 @@ public class Config {
     //Cannon Bullet
     public final static double cannonSpeed = 10.0;
     public final static double cannonDamage = 1.0;
+    public final static int cannonLastingTime = 5;
 
     //Catapult Bullet
     public final static double catapultSpeed = 10.0;
     public final static double catapultDamage = 1.0;
+    public final static int catapultLastingTime = 5;
 
     public final static double bulletSize = 8.0;
 
