@@ -11,7 +11,7 @@ import sample.Helper;
 import java.util.List;
 
 public class BlasterTower extends Tower {
-    private final String baseLvl1 = "towerRound_sampleE_E";
+    private final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String blaster_E = "024";
     final String blaster_N = "025";
@@ -55,7 +55,7 @@ public class BlasterTower extends Tower {
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 +".png"), x, y, width, height
         );
         gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E +".png"), x, y - 15, width, height
+                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E +".png"), x, y - 13, width, height
         );
     }
 

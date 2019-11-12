@@ -41,6 +41,7 @@ public class BallistaBullet extends Bullet {
         if(lastingTime == 0){
             this.setDisposed(true);
             target.setHealth(target.getHealth() - this.getDamage());
+            System.out.println(this.getX() + " " + this.target.getX() + "\n" + this.getY() + " " + this.target.getY());
         }
         else {
             this.setX(this.getX() - (T_x - E_x) * this.getSpeed() / 10);

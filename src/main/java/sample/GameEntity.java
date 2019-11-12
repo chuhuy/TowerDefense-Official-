@@ -36,7 +36,6 @@ abstract public class GameEntity {
         return width;
     }
 
-
     abstract public void render(GraphicsContext gc);
     abstract public void update();
 }

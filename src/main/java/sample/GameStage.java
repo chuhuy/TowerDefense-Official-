@@ -116,10 +116,11 @@ public class GameStage extends MyStage{
         }
 
 
-        bullets.removeIf(Bullet::isDisposed);
+        //bullets.removeIf(Bullet::isDisposed);
         for(Bullet bullet : bullets){
             bullet.update();
         }
+        bullets.removeIf(Bullet::isDisposed);
     }
 
     public void event(Scene scene){
@@ -134,12 +135,15 @@ public class GameStage extends MyStage{
                         eventType = 1;
                     }
                     if (X >= 125 && X <= 184) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
                         eventType = 2;
                     }
                     if (X >= 213 && X <= 275) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
                         eventType = 3;
                     }
                     if (X >= 305 && X <= 366) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
                         eventType = 4;
                     }
                 }

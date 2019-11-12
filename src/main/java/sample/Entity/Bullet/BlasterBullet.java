@@ -37,7 +37,7 @@ public class BlasterBullet extends Bullet {
 
     @Override
     public void update() {
-        if(lastingTime == 0){
+        if(lastingTime == 0 || (this.getX() - this.target.getX()) >= 0.01 && (this.getY() - this.target.getY()) >=0.01){
             this.setDisposed(true);
             target.setHealth(target.getHealth() - this.getDamage());
         }
