@@ -36,25 +36,25 @@ public class BossEnemy extends Enemy {
             }
             else {
                 switch (map[i][j]) {
-                    case "384":
+                    case "384": case "082":
                         if (this.getDirection() == DIRECTION.NORTH)
                             this.setDirection(DIRECTION.EAST);
                         else if (this.getDirection() == DIRECTION.WEST)
                             this.setDirection(DIRECTION.SOUTH);
                         break;
-                    case "385":
+                    case "385": case "074":
                         if (this.getDirection() == DIRECTION.EAST)
                             this.setDirection(DIRECTION.SOUTH);
                         else if (this.getDirection() == DIRECTION.NORTH)
                             this.setDirection(DIRECTION.WEST);
                         break;
-                    case "386":
+                    case "386": case "055":
                         if (this.getDirection() == DIRECTION.SOUTH)
                             this.setDirection(DIRECTION.WEST);
                         else if (this.getDirection() == DIRECTION.EAST)
                             this.setDirection(DIRECTION.NORTH);
                         break;
-                    case "387":
+                    case "387": case "061":
                         if (this.getDirection() == DIRECTION.WEST)
                             this.setDirection(DIRECTION.NORTH);
                         else if (this.getDirection() == DIRECTION.SOUTH)
