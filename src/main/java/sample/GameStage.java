@@ -15,6 +15,7 @@ import sample.Entity.Tower.BlasterTower;
 import sample.Entity.Tower.CannonTower;
 import sample.Entity.Tower.CatapultTower;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,33 +38,36 @@ public class GameStage{
     }
 
     GameStage(int level){
+        String[][] map = new String[20][20];
+        try{
+            Helper helper = new Helper();
+            map = helper.getMapFromText(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.level = level;
-        enemies.add(new NormalEnemy(spawner.getX(),spawner.getY()));
-        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
+        enemies.add(new NormalEnemy(spawner.getX(),spawner.getY(), map));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
 
         gameEntities.add(spawner);
         gameEntities.add(target);
     }
 
     private void renderMap(GraphicsContext gc){
-        gc.drawImage(new Image("file:src/main/java/images/background.jpg"), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+        gc.drawImage(new Image("file:src/main/java/images/background.png"), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
         gc.drawImage(new Image("file:src/main/java/maps/map2.png"),
                 0, 0, 1200 , 545);
     }
 
     private void renderBar(GraphicsContext gc){
         gc.drawImage(
-                new Image("file:src/main/java/images/bar.png"),
-                0, Config.pixels*17, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT-Config.pixels*17
-        );
-        gc.drawImage(
                 new Image("file:src/main/java/images/setting.png"),
                 5, 5, 40, 40
         );
-        gc.drawImage(
-                new Image("file:src/main/java/images/cancel.png"),
-                50, 12, 25, 25
-        );
+        //gc.drawImage(
+        //        new Image("file:src/main/java/images/cancel.png"),
+        //        50, 12, 25, 25
+        //);
         for(int i = 1; i <= 4; i++) {
             gc.drawImage(
                     new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/00" + i + ".png"),
@@ -120,6 +124,7 @@ public class GameStage{
             if(eventType == 0) {
                 if (Y >= 597.0 && Y <= 627.0) {
                     if (X >= 31 && X <= 93) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
                         eventType = 1;
                     }
                     if (X >= 125 && X <= 184) {

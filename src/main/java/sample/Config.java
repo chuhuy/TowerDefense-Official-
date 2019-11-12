@@ -16,7 +16,7 @@ public class Config {
     //Normal Enemy
     public final static double normalHealth = 50.0;
     public final static double normalDamage = 5.0;
-    public final static double normalSpeed = 5.0;
+    public final static double normalSpeed = 2.0;
     //Tanker Enemy
     public final static double TankerHealth = 75.0;
     public final static double TankerDamage = 5.0;

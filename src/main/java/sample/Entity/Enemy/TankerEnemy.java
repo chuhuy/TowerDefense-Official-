@@ -4,15 +4,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import sample.Config;
 import sample.DIRECTION;
-import sample.Helper;
-
-import java.io.IOException;
 
 public class TankerEnemy extends Enemy {
     final String image = "039";
     private String[][] map = new String[20][20];
 
-    public TankerEnemy(double x, double y){
+    public TankerEnemy(double x, double y, String[][] map){
         setHealth(Config.TankerHealth);
         setDamage(Config.TankerDamage);
         setSpeed(Config.TankerSpeed);
@@ -20,12 +17,7 @@ public class TankerEnemy extends Enemy {
         setWidth(Config.pixels * 5);
         setX(x);
         setY(y);
-        try{
-            Helper helper = new Helper();
-            this.map = helper.getMapFromText(2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.map = map;
     }
 
     @Override

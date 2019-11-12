@@ -6,7 +6,12 @@ import sample.Config;
 import sample.GameEntity;
 
 public class Target extends GameEntity {
+    private double health = 100;
     final String image = "044";
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
 
     public Target(int targetPosX, int targetPosY)
     {
@@ -18,9 +23,8 @@ public class Target extends GameEntity {
 
     }
 
-    @Override
     public double getHealth() {
-        return super.getHealth();
+        return this.health;
     }
 
     @Override

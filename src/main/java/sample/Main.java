@@ -38,18 +38,15 @@ public class Main extends Application {
                     //MyStage currentStage = stageStack.peek();
                     //currentStage.render(gc, root);
                     //lastUpdate = now;
-                game.render(gc);
                 game.update();
+                game.render(gc);
             }
         }.start();
         game.event(scene);
 
     }
 
-
     public static void main(String[] args) {
-
-
         launch(args);
     }
 }

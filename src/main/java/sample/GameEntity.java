@@ -3,7 +3,6 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 
 abstract public class GameEntity {
-    protected double health ;
     protected double x ;
     protected double y;
     protected double width;
@@ -11,12 +10,7 @@ abstract public class GameEntity {
 
 
     //getter and setter
-    public void setHealth(double h){
-        this.health = h;
-    }
-    public double getHealth() {
-        return health;
-    }
+
     public void setX(double x) {
         this.x = x;
     }
