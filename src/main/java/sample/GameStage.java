@@ -1,13 +1,12 @@
 package sample;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import sample.Entity.Bullet.Bullet;
-import sample.Entity.Enemy.Enemy;
-import sample.Entity.Enemy.NormalEnemy;
-import sample.Entity.Enemy.TankerEnemy;
+import sample.Entity.Enemy.*;
 import sample.Entity.Spawner.Spawner;
 import sample.Entity.Target;
 import sample.Entity.Tower.BallistaTower;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameStage{
+public class GameStage extends MyStage{
     private int level = 1;
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
@@ -41,12 +40,16 @@ public class GameStage{
         String[][] map = new String[20][20];
         try{
             Helper helper = new Helper();
-            map = helper.getMapFromText(2);
+            map = helper.getMapFromText(1 );
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.level = level;
         enemies.add(new NormalEnemy(spawner.getX(),spawner.getY(), map));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new SmallerEnemy(spawner.getX(),spawner.getY(), map));
+        enemies.add(new SmallerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new BossEnemy(spawner.getX(),spawner.getY(), map));
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
 
         gameEntities.add(spawner);
@@ -55,7 +58,7 @@ public class GameStage{
 
     private void renderMap(GraphicsContext gc){
         gc.drawImage(new Image("file:src/main/java/images/background.png"), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-        gc.drawImage(new Image("file:src/main/java/maps/map2.png"),
+        gc.drawImage(new Image("file:src/main/java/maps/map1.png"),
                 0, 0, 1200 , 545);
     }
 
@@ -64,11 +67,13 @@ public class GameStage{
                 new Image("file:src/main/java/images/setting.png"),
                 5, 5, 40, 40
         );
-        //gc.drawImage(
-        //        new Image("file:src/main/java/images/cancel.png"),
-        //        50, 12, 25, 25
-        //);
+        gc.drawImage(
+                new Image("file:src/main/java/images/cancel.png"),
+                50, 12, 25, 25
+        );
         for(int i = 1; i <= 4; i++) {
+
+
             gc.drawImage(
                     new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/00" + i + ".png"),
                     i*30 + (i-1)*61, Config.pixels * 17 + 50, 61, 30
@@ -90,7 +95,7 @@ public class GameStage{
             gameEntity.render(gc);
         }
     }
-    public void render(GraphicsContext gc){
+    public void render(GraphicsContext gc, Group root){
         renderMap(gc);
         renderBar(gc);
         renderTower(gc);
@@ -98,6 +103,7 @@ public class GameStage{
         renderBullet(gc);
 
     }
+
     public void update(){
         //Enemy Update
         for(GameEntity gameEntity : gameEntities){
@@ -116,7 +122,7 @@ public class GameStage{
         }
     }
 
-    void event(Scene scene){
+    public void event(Scene scene){
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
 
             double X = mouseEvent.getX();

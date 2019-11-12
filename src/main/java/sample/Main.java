@@ -29,7 +29,8 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setTitle(Config.GAME_NAME);
         primaryStage.setResizable(false);
-        GameStage game = new GameStage(2);
+        MyStage menu = new MenuStage(stageStack);
+        stageStack.push(menu);
 
 
         new AnimationTimer() {
@@ -38,11 +39,12 @@ public class Main extends Application {
                     //MyStage currentStage = stageStack.peek();
                     //currentStage.render(gc, root);
                     //lastUpdate = now;
-                game.update();
-                game.render(gc);
+                stageStack.peek().render(gc, root);
+                stageStack.peek().update();
+
             }
         }.start();
-        game.event(scene);
+        stageStack.peek().event(scene);
 
     }
 
