@@ -47,11 +47,11 @@ public class GameStage{
             e.printStackTrace();
         }
         this.level = level;
-        enemies.add(new NormalEnemy(spawner.getX(),spawner.getY()));
-        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
-        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
-        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
-        enemies.add(new BossEnemy(spawner.getX(), spawner.getY()));
+        enemies.add(new NormalEnemy(spawner.getX(),spawner.getY(), map));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new BossEnemy(spawner.getX(), spawner.getY(), map));
 
         gameEntities.add(spawner);
         gameEntities.add(target);
