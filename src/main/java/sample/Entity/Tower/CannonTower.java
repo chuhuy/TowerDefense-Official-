@@ -11,7 +11,7 @@ import sample.Helper;
 import java.util.List;
 
 public class CannonTower extends Tower{
-    final String baseLvl1 = "towerRound_sampleE_E";
+    final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String cannon_E = "031";
 
@@ -47,7 +47,7 @@ public class CannonTower extends Tower{
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 +".png"), x, y, width, height
         );
         gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + cannon_E +".png"), x, y - 15, width, height
+                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + cannon_E +".png"), x, y - 14, width, height
         );
     }
 

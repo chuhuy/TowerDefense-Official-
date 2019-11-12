@@ -46,7 +46,7 @@ public class Config {
 
 //Bullet Config
     //Ballista Bullet
-    public final static double ballistaSpeed = 10.0;
+    public final static double ballistaSpeed = 2.0;
     public final static double ballistaDamage = 1.0;
     public final static int ballistaLastingTime = 5;
 

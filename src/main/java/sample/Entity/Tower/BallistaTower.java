@@ -11,7 +11,7 @@ import sample.Helper;
 import java.util.List;
 
 public class BallistaTower extends Tower{
-    final String baseLvl1 = "towerRound_sampleE_E";
+    final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String ballista_E = "023";
 

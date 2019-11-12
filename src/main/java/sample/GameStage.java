@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import sample.Entity.Bullet.Bullet;
+import sample.Entity.Enemy.BossEnemy;
 import sample.Entity.Enemy.Enemy;
 import sample.Entity.Enemy.NormalEnemy;
 import sample.Entity.Enemy.TankerEnemy;
@@ -20,7 +21,7 @@ import java.util.List;
 
 
 public class GameStage{
-    private int level = 1;
+    private int level;
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
@@ -40,22 +41,20 @@ public class GameStage{
         this.level = level;
         enemies.add(new NormalEnemy(spawner.getX(),spawner.getY()));
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
+        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
+        enemies.add(new BossEnemy(spawner.getX(), spawner.getY()));
 
         gameEntities.add(spawner);
         gameEntities.add(target);
     }
 
     private void renderMap(GraphicsContext gc){
-        gc.drawImage(new Image("file:src/main/java/images/background.jpg"), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
         gc.drawImage(new Image("file:src/main/java/maps/map2.png"),
                 0, 0, 1200 , 545);
     }
 
     private void renderBar(GraphicsContext gc){
-        gc.drawImage(
-                new Image("file:src/main/java/images/bar.png"),
-                0, Config.pixels*17, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT-Config.pixels*17
-        );
         gc.drawImage(
                 new Image("file:src/main/java/images/setting.png"),
                 5, 5, 40, 40
@@ -106,10 +105,11 @@ public class GameStage{
         }
 
 
-        bullets.removeIf(Bullet::isDisposed);
+        //bullets.removeIf(Bullet::isDisposed);
         for(Bullet bullet : bullets){
             bullet.update();
         }
+        bullets.removeIf(Bullet::isDisposed);
     }
 
     void event(Scene scene){
@@ -120,15 +120,19 @@ public class GameStage{
             if(eventType == 0) {
                 if (Y >= 597.0 && Y <= 627.0) {
                     if (X >= 31 && X <= 93) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
                         eventType = 1;
                     }
                     if (X >= 125 && X <= 184) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
                         eventType = 2;
                     }
                     if (X >= 213 && X <= 275) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
                         eventType = 3;
                     }
                     if (X >= 305 && X <= 366) {
+                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
                         eventType = 4;
                     }
                 }
