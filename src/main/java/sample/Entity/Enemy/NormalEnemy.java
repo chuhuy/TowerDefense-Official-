@@ -4,15 +4,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import sample.Config;
 import sample.DIRECTION;
-import sample.Helper;
-
-import java.io.IOException;
 
 public class NormalEnemy extends Enemy {
-    final String image = "036";
     private String[][] map = new String[20][20];
 
-    public NormalEnemy(double x, double y){
+    public NormalEnemy(double x, double y, String[][] map){
         setHealth(Config.normalHealth);
         setDamage(Config.normalDamage);
         setSpeed(Config.normalSpeed);
@@ -20,18 +16,13 @@ public class NormalEnemy extends Enemy {
         setWidth(Config.pixels * 5);
         setX(x);
         setY(y);
-        try{
-            Helper helper = new Helper();
-            this.map = helper.getMapFromText(2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.map = map;
     }
 
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(
-            new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + image + ".png"), x, y, width, height
+            new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/036.png"), x, y, width, height
         );
     }
 
@@ -45,25 +36,25 @@ public class NormalEnemy extends Enemy {
             }
             else {
                 switch (map[i][j]) {
-                    case "384":
+                    case "384": case "082":
                         if (this.getDirection() == DIRECTION.NORTH)
                             this.setDirection(DIRECTION.EAST);
                         else if (this.getDirection() == DIRECTION.WEST)
                             this.setDirection(DIRECTION.SOUTH);
                         break;
-                    case "385":
+                    case "385": case "074":
                         if (this.getDirection() == DIRECTION.EAST)
                             this.setDirection(DIRECTION.SOUTH);
                         else if (this.getDirection() == DIRECTION.NORTH)
                             this.setDirection(DIRECTION.WEST);
                         break;
-                    case "386":
+                    case "386": case "055":
                         if (this.getDirection() == DIRECTION.SOUTH)
                             this.setDirection(DIRECTION.WEST);
                         else if (this.getDirection() == DIRECTION.EAST)
                             this.setDirection(DIRECTION.NORTH);
                         break;
-                    case "387":
+                    case "387": case "061":
                         if (this.getDirection() == DIRECTION.WEST)
                             this.setDirection(DIRECTION.NORTH);
                         else if (this.getDirection() == DIRECTION.SOUTH)

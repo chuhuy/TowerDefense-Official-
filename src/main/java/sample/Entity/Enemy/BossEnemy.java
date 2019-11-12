@@ -4,15 +4,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import sample.Config;
 import sample.DIRECTION;
-import sample.Helper;
-
-import java.io.IOException;
 
 public class BossEnemy extends Enemy {
-    final String image = "037";
     private String[][] map = new String[20][20];
 
-    public BossEnemy(double x, double y){
+    public BossEnemy(double x, double y, String[][] map){
         setHealth(Config.bossHealth);
         setDamage(Config.bossDamage);
         setSpeed(Config.bossSpeed);
@@ -20,18 +16,13 @@ public class BossEnemy extends Enemy {
         setWidth(Config.pixels * 5);
         setX(x);
         setY(y);
-        try{
-            Helper helper = new Helper();
-            this.map = helper.getMapFromText(2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.map = map;
     }
 
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + image + ".png"), x, y, width, height
+                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/037.png"), x, y, width, height
         );
     }
 

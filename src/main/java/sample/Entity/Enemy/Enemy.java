@@ -5,11 +5,20 @@ import sample.DIRECTION;
 import sample.GameEntity;
 
 abstract public class Enemy extends GameEntity {
-    protected double damage = 5;
-    protected double speed = 5;
-    protected int prize = 0;
-    protected DIRECTION direction = DIRECTION.NORTH;
-    protected boolean dead = false;
+    private double health = 100;
+    private double damage = 5;
+    private double speed = 5;
+    private int prize = 0;
+    private DIRECTION direction = DIRECTION.NORTH;
+    private boolean dead = false;
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public double getHealth() {
+        return health;
+    }
 
     public boolean isDead() {
         return dead;

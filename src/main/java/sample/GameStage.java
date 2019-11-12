@@ -16,6 +16,7 @@ import sample.Entity.Tower.BlasterTower;
 import sample.Entity.Tower.CannonTower;
 import sample.Entity.Tower.CatapultTower;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,13 @@ public class GameStage{
     }
 
     GameStage(int level){
+        String[][] map = new String[20][20];
+        try{
+            Helper helper = new Helper();
+            map = helper.getMapFromText(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.level = level;
         enemies.add(new NormalEnemy(spawner.getX(),spawner.getY()));
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY()));
@@ -59,10 +67,10 @@ public class GameStage{
                 new Image("file:src/main/java/images/setting.png"),
                 5, 5, 40, 40
         );
-        gc.drawImage(
-                new Image("file:src/main/java/images/cancel.png"),
-                50, 12, 25, 25
-        );
+        //gc.drawImage(
+        //        new Image("file:src/main/java/images/cancel.png"),
+        //        50, 12, 25, 25
+        //);
         for(int i = 1; i <= 4; i++) {
             gc.drawImage(
                     new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/00" + i + ".png"),

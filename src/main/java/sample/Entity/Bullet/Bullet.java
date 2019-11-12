@@ -5,9 +5,9 @@ import sample.Entity.Enemy.Enemy;
 import sample.GameEntity;
 
 abstract public class Bullet extends GameEntity {
-    protected double speed;
-    protected double damage;
-    protected boolean disposed = false;
+    private double speed;
+    private double damage;
+    private boolean disposed = false;
     protected double x;
     protected double y;
     protected Enemy target;
