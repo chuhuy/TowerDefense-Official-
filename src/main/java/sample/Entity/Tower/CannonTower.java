@@ -14,6 +14,7 @@ public class CannonTower extends Tower{
     final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String cannon_E = "031";
+    double cooldown = Config.cannonFireRate;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
@@ -56,7 +57,13 @@ public class CannonTower extends Tower{
         this.updateTargetQueue(enemies);
         System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
-            fire(enemiesQueue.peek());
+            if(cooldown == 0) {
+                fire(enemiesQueue.peek());
+                cooldown = Config.cannonFireRate;
+            }
+            else {
+                cooldown --;
+            }
         }
     }
 }

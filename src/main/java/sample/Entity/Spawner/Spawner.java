@@ -3,7 +3,12 @@ package sample.Entity.Spawner;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import sample.Config;
+import sample.Entity.Enemy.*;
 import sample.GameEntity;
+import sample.Helper;
+
+import java.io.IOException;
+import java.util.*;
 
 public class Spawner extends GameEntity {
 
@@ -13,7 +18,6 @@ public class Spawner extends GameEntity {
         setWidth(Config.pixels * 5);
         setHeight(Config.pixels * 5);
     }
-
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(
@@ -22,7 +26,9 @@ public class Spawner extends GameEntity {
         );
     }
 
-    public void update(){
+    @Override
+    public void update() {
 
     }
+
 }

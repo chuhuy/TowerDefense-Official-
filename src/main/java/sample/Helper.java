@@ -21,6 +21,7 @@ public class Helper {
         return result;
     }
 
+
     public double ijToX(int i, int j){
         return ((double)j - (double)i) * 32.0 / 1.55 + 600 - 80;
     }

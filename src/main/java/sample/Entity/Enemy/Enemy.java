@@ -8,7 +8,7 @@ abstract public class Enemy extends GameEntity {
     private double health = 100;
     private double damage = 5;
     private double speed = 5;
-    private int prize = 0;
+    private int prize;
     private DIRECTION direction = DIRECTION.NORTH;
     private boolean dead = false;
 

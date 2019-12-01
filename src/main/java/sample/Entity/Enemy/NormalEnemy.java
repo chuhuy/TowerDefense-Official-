@@ -14,6 +14,7 @@ public class NormalEnemy extends Enemy {
         setSpeed(Config.normalSpeed);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setPrize(50);
         setX(x);
         setY(y);
         this.map = map;

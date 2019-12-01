@@ -17,6 +17,7 @@ public class BlasterTower extends Tower {
     final String blaster_N = "025";
     final String blaster_S = "027";
     final String blaster_W = "026";
+    double cooldown = Config.blasterFireRate;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
@@ -69,7 +70,13 @@ public class BlasterTower extends Tower {
         this.updateTargetQueue(enemies);
         System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
-            fire(enemiesQueue.peek());
+            if(cooldown == 0) {
+                fire(enemiesQueue.peek());
+                cooldown = Config.blasterFireRate;
+            }
+            else {
+                cooldown --;
+            }
         }
     }
 }

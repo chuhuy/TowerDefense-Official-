@@ -29,7 +29,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setTitle(Config.GAME_NAME);
         primaryStage.setResizable(false);
-        MyStage menu = new MenuStage(stageStack);
+        MyStage menu = new GameStage(1);
         stageStack.push(menu);
 
 

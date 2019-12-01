@@ -14,6 +14,7 @@ public class CatapultTower extends Tower {
     final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String catapult_E = "035";
+    double cooldown = Config.catapultFireRate;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
@@ -56,7 +57,13 @@ public class CatapultTower extends Tower {
         this.updateTargetQueue(enemies);
         System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
-            fire(enemiesQueue.peek());
+            if(cooldown == 0) {
+                fire(enemiesQueue.peek());
+                cooldown = Config.catapultFireRate;
+            }
+            else {
+                cooldown --;
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ public class BallistaTower extends Tower{
     final String baseLvl1 = "towerRound_bottomB_E";
     final String baseLvl2 = "towerSquare_sampleE_E";
     final String ballista_E = "023";
+    double cooldown = Config.ballistaFireRate;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
@@ -53,7 +54,13 @@ public class BallistaTower extends Tower{
         this.updateTargetQueue(enemies);
         System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
-            fire(enemiesQueue.peek());
+            if(cooldown == 0) {
+                fire(enemiesQueue.peek());
+                cooldown = Config.ballistaFireRate;
+            }
+            else {
+                cooldown --;
+            }
         }
     }
 }

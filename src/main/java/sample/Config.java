@@ -33,10 +33,10 @@ public class Config {
 //Tower Config
     //Ballista
     public final static double ballistaRange = 4.0;
-    public final static double ballistaFireRate = 3.0;
+    public final static double ballistaFireRate = 5.0;
     //Blaster
     public final static double blasterRange = 3.0;
-    public final static double blasterFireRate = 1.5;
+    public final static double blasterFireRate = 2.0;
     //Cannon
     public final static double cannonRange = 2.0;
     public final static double cannonFireRate = 2.0;
@@ -71,6 +71,7 @@ public class Config {
     public final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
+    public final static String enemylvl1 = "111123";
 
 
     Config(){

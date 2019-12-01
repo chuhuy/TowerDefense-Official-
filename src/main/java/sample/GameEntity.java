@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.canvas.GraphicsContext;
+import sample.Entity.Enemy.Enemy;
 
 abstract public class GameEntity {
     protected double x ;

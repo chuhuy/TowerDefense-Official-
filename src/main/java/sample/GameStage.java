@@ -15,18 +15,23 @@ import sample.Entity.Tower.CannonTower;
 import sample.Entity.Tower.CatapultTower;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class GameStage extends MyStage{
-    private int level = 1;
+    private int level;
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
-    private List<Enemy> enemies = new ArrayList<>();
+    public List<Enemy> enemies = new ArrayList<>();
+    public Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
+    private int money = 100;
+    private double waveInterval = Config.normalInterval;
+    private boolean moneyChange = true;
 
-    private GameEntity spawner = new Spawner(3, 19);
+    private String[][] map = new String[20][20];
+
+    private GameEntity sp = new Spawner(3, 19);
     private GameEntity target = new Target(18,0);
 
     public int getLevel() {
@@ -36,7 +41,31 @@ public class GameStage extends MyStage{
         this.level = level;
     }
 
+    public void getMap() {
+        try{
+            Helper helper = new Helper();
+            map = helper.getMapFromText(this.getLevel());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+    public void getEnemy() {
+        Scanner sc = new Scanner(Config.enemylvl1);
+        while(sc.hasNext()){
+            switch (sc.next()){
+                case "1": enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
+                case "2": enemyList.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
+                case "3": enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
+                case "4": enemyList.add(new BossEnemy(sp.getX(),sp.getY(), map));
+            }
+        }
+    }
+
+     */
+
     GameStage(int level){
+        /*
         String[][] map = new String[20][20];
         try{
             Helper helper = new Helper();
@@ -44,15 +73,25 @@ public class GameStage extends MyStage{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
+
         this.level = level;
-        enemies.add(new NormalEnemy(spawner.getX(),spawner.getY(), map));
+        this.getMap();
+        //this.getEnemy();
+        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
+        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
+        enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
+        /*
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
         enemies.add(new SmallerEnemy(spawner.getX(),spawner.getY(), map));
-        enemies.add(new SmallerEnemy(spawner.getX(), spawner.getY(), map));
-        enemies.add(new BossEnemy(spawner.getX(),spawner.getY(), map));
-        enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
+        enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
+        enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
+        enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
 
-        gameEntities.add(spawner);
+         */
+
+        gameEntities.add(sp);
         gameEntities.add(target);
     }
 
@@ -72,8 +111,6 @@ public class GameStage extends MyStage{
                 50, 12, 25, 25
         );
         for(int i = 1; i <= 4; i++) {
-
-
             gc.drawImage(
                     new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/00" + i + ".png"),
                     i*30 + (i-1)*61, Config.pixels * 17 + 50, 61, 30
@@ -81,8 +118,16 @@ public class GameStage extends MyStage{
         }
     }
     private void renderEnemy(GraphicsContext gc){
-        for(Enemy enemy : enemies){
-            enemy.render(gc);
+        if(!enemyList.isEmpty()) {
+            if (waveInterval == 0) {
+                enemies.add(enemyList.poll());
+                waveInterval = Config.normalInterval;
+            } else waveInterval--;
+        }
+        if(!enemies.isEmpty()) {
+            for (Enemy enemy : enemies) {
+                enemy.render(gc);
+            }
         }
     }
     private void renderBullet(GraphicsContext gc){
@@ -90,10 +135,23 @@ public class GameStage extends MyStage{
             bullet.render(gc);
         }
     }
-    private void renderTower(GraphicsContext gc){
-        for(GameEntity gameEntity:gameEntities){
+    private void renderTower(GraphicsContext gc) {
+        for (GameEntity gameEntity : gameEntities) {
             gameEntity.render(gc);
         }
+    }
+
+    private void renderMoney(GraphicsContext gc){
+        //if(moneyChange) {
+            int x = 850;
+            String m = toString().valueOf(money);
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 600, 50, 50);
+            for (int i = 0; i < m.length(); i++) {
+                x += 25;
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 600, 50, 50);
+            }
+            //moneyChange = false;
+        //}
     }
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
@@ -101,15 +159,18 @@ public class GameStage extends MyStage{
         renderTower(gc);
         renderEnemy(gc);
         renderBullet(gc);
-
+        //renderMoney(gc);
     }
 
     public void update(){
         //Enemy Update
-        for(GameEntity gameEntity : gameEntities){
+        for(GameEntity gameEntity : gameEntities) {
             gameEntity.update();
         }
-
+        if(enemies.get(0).isDead()) {
+            moneyChange = true;
+            money += enemies.get(0).getPrize();
+        }
         enemies.removeIf(Enemy::isDead);
         for(Enemy enemy : enemies){
             enemy.update();
@@ -188,3 +249,5 @@ public class GameStage extends MyStage{
     }
 
 }
+
+//}
