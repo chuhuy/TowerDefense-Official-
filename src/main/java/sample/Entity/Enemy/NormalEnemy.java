@@ -6,8 +6,19 @@ import sample.Config;
 import sample.DIRECTION;
 
 public class NormalEnemy extends Enemy {
-    private String[][] map = new String[20][20];
-
+    private String[][] map;
+    public NormalEnemy(double x, double y, String[][] map, int health, DIRECTION direction){
+        setHealth(health);
+        setDirection(direction);
+        setDamage(Config.normalDamage);
+        setSpeed(Config.normalSpeed);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setPrize(50);
+        setX(x);
+        setY(y);
+        this.map = map;
+    }
     public NormalEnemy(double x, double y, String[][] map){
         setHealth(Config.normalHealth);
         setDamage(Config.normalDamage);

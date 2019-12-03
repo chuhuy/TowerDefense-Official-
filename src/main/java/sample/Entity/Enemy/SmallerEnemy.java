@@ -7,7 +7,18 @@ import sample.DIRECTION;
 
 public class SmallerEnemy extends Enemy{
     private String[][] map = new String[20][20];
-
+    public SmallerEnemy(double x, double y, String[][] map, int health, DIRECTION direction){
+        setHealth(health);
+        setDirection(direction);
+        setDamage(Config.smallerDamage);
+        setSpeed(Config.smallerSpeed);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setPrize(30);
+        setX(x);
+        setY(y);
+        this.map = map;
+    }
     public SmallerEnemy(double x, double y, String[][] map){
         setHealth(Config.smallerHealth);
         setDamage(Config.smallerDamage);
@@ -25,6 +36,7 @@ public class SmallerEnemy extends Enemy{
         gc.drawImage(
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/038.png"), x, y, width, height
         );
+
     }
 
     @Override

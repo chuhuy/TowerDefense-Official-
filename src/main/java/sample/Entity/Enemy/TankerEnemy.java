@@ -8,7 +8,18 @@ import sample.DIRECTION;
 public class TankerEnemy extends Enemy {
     final String image = "039";
     private String[][] map = new String[20][20];
-
+    public TankerEnemy(double x, double y, String[][] map, int health, DIRECTION direction){
+        setHealth(health);
+        setDirection(direction);
+        setDamage(Config.TankerDamage);
+        setSpeed(Config.TankerSpeed);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setPrize(75);
+        setX(x);
+        setY(y);
+        this.map = map;
+    }
     public TankerEnemy(double x, double y, String[][] map){
         setHealth(Config.TankerHealth);
         setDamage(Config.TankerDamage);

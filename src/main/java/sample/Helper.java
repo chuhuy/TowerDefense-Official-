@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Helper {
 
-    public String[][] getMapFromText(int level) throws IOException {
+    String[][] getMapFromText(int level) throws IOException {
         String[][] result = new String[20][20];
         File file = new File("src/main/java/maps/map" + level + ".txt");
         InputStream in = new FileInputStream(file);
@@ -19,6 +19,12 @@ public class Helper {
         }
 
         return result;
+    }
+    String loadJson()throws IOException{
+        File file = new File("src/main/java/savegame/saveGame.txt");
+        InputStream in = new FileInputStream(file);
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        return br.readLine();
     }
 
 

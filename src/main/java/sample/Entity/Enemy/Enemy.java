@@ -3,6 +3,7 @@ package sample.Entity.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import sample.DIRECTION;
 import sample.GameEntity;
+import sample.Helper;
 
 abstract public class Enemy extends GameEntity {
     private double health = 100;
@@ -53,4 +54,20 @@ abstract public class Enemy extends GameEntity {
 
     abstract public void render(GraphicsContext gc);
     abstract public void update();
+    public String toJsonStr(){
+        int type = 0;
+        if(this instanceof BossEnemy){
+            type = 1;
+        }
+        else if(this instanceof NormalEnemy){
+            type = 2;
+        }
+        else if(this instanceof SmallerEnemy){
+            type = 3;
+        }
+        else if(this instanceof TankerEnemy){
+            type = 4;
+        }
+        return "{\"type\":" + type + ",\"health\":" + this.health + ",\"x\":" + x + ",\"y\":" + y + ",\"direction\":\"" + this.direction + "\"}";
+    }
 }

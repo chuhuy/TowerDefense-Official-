@@ -8,6 +8,19 @@ import sample.DIRECTION;
 public class BossEnemy extends Enemy {
     private String[][] map = new String[20][20];
 
+    public BossEnemy(double x, double y, String[][] map, int health, DIRECTION direction){
+        setDirection(direction);
+        setHealth(health);
+        setDamage(Config.bossDamage);
+        setSpeed(Config.bossSpeed);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setPrize(100);
+        setX(x);
+        setY(y);
+        this.map = map;
+    }
+
     public BossEnemy(double x, double y, String[][] map){
         setHealth(Config.bossHealth);
         setDamage(Config.bossDamage);

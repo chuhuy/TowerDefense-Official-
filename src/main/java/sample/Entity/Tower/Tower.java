@@ -54,4 +54,20 @@ abstract public class Tower extends GameEntity{
 
     abstract public void render(GraphicsContext gc);
     abstract public void update();
+    public String toJsonStr(){
+        int type = 0;
+        if(this instanceof BallistaTower){
+            type = 1;
+        }
+        else if(this instanceof BlasterTower){
+            type = 2;
+        }
+        else if(this instanceof CannonTower){
+            type = 3;
+        }
+        else if(this instanceof CatapultTower){
+            type = 4;
+        }
+        return "{\"type\":" + type + ",\"x\":" + x + ",\"y\":" + y + "}";
+    }
 }

@@ -13,7 +13,7 @@ import java.util.Stack;
 public class Main extends Application {
 
     GraphicsContext gc;
-    public static Stack<MyStage> stageStack = new Stack<MyStage>();
+    public static Stack<MyStage> stageStack = new Stack<>();
 
     @Override
     public void start(Stage primaryStage){
@@ -29,16 +29,13 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setTitle(Config.GAME_NAME);
         primaryStage.setResizable(false);
-        MyStage menu = new GameStage(1);
+        MyStage menu = new MenuStage(stageStack);
         stageStack.push(menu);
 
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                    //MyStage currentStage = stageStack.peek();
-                    //currentStage.render(gc, root);
-                    //lastUpdate = now;
                 stageStack.peek().render(gc, root);
                 stageStack.peek().update();
 

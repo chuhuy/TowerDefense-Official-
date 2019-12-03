@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class MenuStage extends MyStage{
@@ -35,9 +36,35 @@ public class MenuStage extends MyStage{
         root.getChildren().add(startButton);
 
         startButton.setOnMouseReleased(some -> {
-            TransitionStage trans = new TransitionStage(stageStack);
+            GameStage game = new GameStage(1);
+            stageStack.pop();
+            stageStack.push(game);
+        });
 
-            stageStack.push(trans);
+        Button loadSaveGame = new Button();
+        int loadSaveGame_x = 610;
+        loadSaveGame.setLayoutX(loadSaveGame_x);
+        int loadSaveGame_y = 476;
+        loadSaveGame.setLayoutY(loadSaveGame_y);
+        int loadSaveGame_height = 47;
+        int loadSaveGame_width = 160;
+        loadSaveGame.setMinSize(loadSaveGame_width, loadSaveGame_height);
+        loadSaveGame.setMaxSize(loadSaveGame_width, loadSaveGame_height);
+        //startButton.setStyle("-fx-background-color: transparent;");
+        loadSaveGame.setText("Load Save Game");
+        root.getChildren().add(loadSaveGame);
+
+        loadSaveGame.setOnMouseReleased(some -> {
+            GameStage game = null;
+            try {
+                root.getChildren().remove(loadSaveGame);
+                root.getChildren().remove(startButton);
+                game = new GameStage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stageStack.pop();
+            stageStack.push(game);
         });
     }
 
