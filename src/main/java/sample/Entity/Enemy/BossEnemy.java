@@ -14,6 +14,7 @@ public class BossEnemy extends Enemy {
         setSpeed(Config.bossSpeed);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setPrize(100);
         setX(x);
         setY(y);
         this.map = map;

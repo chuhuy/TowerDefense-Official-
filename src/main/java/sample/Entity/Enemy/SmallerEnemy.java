@@ -14,6 +14,7 @@ public class SmallerEnemy extends Enemy{
         setSpeed(Config.smallerSpeed);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setPrize(30);
         setX(x);
         setY(y);
         this.map = map;

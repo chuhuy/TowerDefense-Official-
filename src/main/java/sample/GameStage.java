@@ -27,7 +27,6 @@ public class GameStage extends MyStage{
     private List<Bullet> bullets = new ArrayList<>();
     private int money = 100;
     private double waveInterval = Config.normalInterval;
-    private boolean moneyChange = true;
 
     private String[][] map = new String[20][20];
 
@@ -49,20 +48,31 @@ public class GameStage extends MyStage{
             e.printStackTrace();
         }
     }
-    /*
     public void getEnemy() {
-        Scanner sc = new Scanner(Config.enemylvl1);
-        while(sc.hasNext()){
-            switch (sc.next()){
-                case "1": enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-                case "2": enemyList.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
-                case "3": enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-                case "4": enemyList.add(new BossEnemy(sp.getX(),sp.getY(), map));
+        //Scanner sc = new Scanner(Config.enemylvl1);
+        //while(sc.hasNext()){
+        String m = Config.enemylvl1;
+        System.out.println(m);
+        System.out.println(m.length());
+        for(int i=0; i < m.length(); i++) {
+            /*
+            switch (m.charAt(i)) {
+                case '1':
+                    enemyList.add(new NormalEnemy(sp.getX(), sp.getY(), map));
+                case '2':
+                    enemyList.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
+                case '3':
+                    enemyList.add(new TankerEnemy(sp.getX(), sp.getY(), map));
+                case '4':
+                    enemyList.add(new BossEnemy(sp.getX(), sp.getY(), map));
             }
+             */
+            if(m.charAt(i) == '1') enemyList.add(new NormalEnemy(sp.getX(), sp.getY(), map));
+            else if(m.charAt(i) == '2') enemyList.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
+                else if(m.charAt(i) == '3') enemyList.add(new TankerEnemy(sp.getX(), sp.getY(), map));
+                    else if(m.charAt(i) == '4') enemyList.add(new BossEnemy(sp.getX(), sp.getY(), map));
         }
     }
-
-     */
 
     GameStage(int level){
         /*
@@ -73,22 +83,20 @@ public class GameStage extends MyStage{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
          */
 
         this.level = level;
         this.getMap();
-        //this.getEnemy();
+        this.getEnemy();
+        /*
         enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
         enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
         enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-        /*
         enemies.add(new TankerEnemy(spawner.getX(), spawner.getY(), map));
         enemies.add(new SmallerEnemy(spawner.getX(),spawner.getY(), map));
         enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
         enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
         enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-
          */
 
         gameEntities.add(sp);
@@ -116,12 +124,44 @@ public class GameStage extends MyStage{
                     i*30 + (i-1)*61, Config.pixels * 17 + 50, 61, 30
             );
         }
+        int x = 15;
+        String m = toString().valueOf(Config.ballistaCost);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 625, 35, 35);
+        for (int i = 0; i < m.length(); i++) {
+            x += 17;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 625, 35, 35);
+        }
+
+        x = 105;
+        m = toString().valueOf(Config.blasterCost);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 625, 35, 35);
+        for (int i = 0; i < m.length(); i++) {
+            x += 17;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 625, 35, 35);
+        }
+
+        x = 210;
+        m = toString().valueOf(Config.cannonCost);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 625, 35, 35);
+        for (int i = 0; i < m.length(); i++) {
+            x += 17;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 625, 35, 35);
+        }
+
+        x = 300;
+        m = toString().valueOf(Config.catapultCost);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 625, 35, 35);
+        for (int i = 0; i < m.length(); i++) {
+            x += 17;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 625, 35, 35);
+        }
     }
     private void renderEnemy(GraphicsContext gc){
         if(!enemyList.isEmpty()) {
             if (waveInterval == 0) {
                 enemies.add(enemyList.poll());
                 waveInterval = Config.normalInterval;
+                System.out.println(enemyList.size());
             } else waveInterval--;
         }
         if(!enemies.isEmpty()) {
@@ -142,16 +182,13 @@ public class GameStage extends MyStage{
     }
 
     private void renderMoney(GraphicsContext gc){
-        //if(moneyChange) {
-            int x = 850;
-            String m = toString().valueOf(money);
-            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 600, 50, 50);
-            for (int i = 0; i < m.length(); i++) {
-                x += 25;
-                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 600, 50, 50);
-            }
-            //moneyChange = false;
-        //}
+        int x = 850;
+        String m = toString().valueOf(money);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 600, 50, 50);
+        for (int i = 0; i < m.length(); i++) {
+            x += 25;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 600, 50, 50);
+        }
     }
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
@@ -159,7 +196,7 @@ public class GameStage extends MyStage{
         renderTower(gc);
         renderEnemy(gc);
         renderBullet(gc);
-        //renderMoney(gc);
+        renderMoney(gc);
     }
 
     public void update(){
@@ -167,9 +204,10 @@ public class GameStage extends MyStage{
         for(GameEntity gameEntity : gameEntities) {
             gameEntity.update();
         }
-        if(enemies.get(0).isDead()) {
-            moneyChange = true;
-            money += enemies.get(0).getPrize();
+        if(!enemies.isEmpty()) {
+            if (enemies.get(0).isDead()) {
+                money += enemies.get(0).getPrize();
+            }
         }
         enemies.removeIf(Enemy::isDead);
         for(Enemy enemy : enemies){
@@ -191,59 +229,87 @@ public class GameStage extends MyStage{
             double Y = mouseEvent.getY();
             if(eventType == 0) {
                 if (Y >= 597.0 && Y <= 627.0) {
-                    if (X >= 31 && X <= 93) {
+                    if (X >= 31 && X <= 93 && money >= Config.ballistaCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
                         eventType = 1;
+                        money -= Config.ballistaCost;
                     }
-                    if (X >= 125 && X <= 184) {
+                    if (X >= 125 && X <= 184 && money >= Config.blasterCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
                         eventType = 2;
+                        money -= Config.blasterCost;
                     }
-                    if (X >= 213 && X <= 275) {
+                    if (X >= 213 && X <= 275 && money >= Config.cannonCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
                         eventType = 3;
+                        money -= Config.cannonCost;
                     }
-                    if (X >= 305 && X <= 366) {
+                    if (X >= 305 && X <= 366 && money >= Config.catapultCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
                         eventType = 4;
+                        money -= Config.catapultCost;
                     }
                 }
             }
             else if(eventType == 1){
-                Helper helper = new Helper();
-                int i = helper.xyToI(X - 92, Y - 92);
-                int j = helper.xyToJ(X - 92, Y - 92);
-                if(i >= 0 && i <= 19 && j >= 0 && j <= 19){
-                    gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                if (X >= 31 && X <= 93 && Y >= 597.0 && Y <= 627.0){
+                    eventType = 0;
+                    money += Config.ballistaCost;
+                } //Re-click the tower symbol to cancel planting tower
+                else {
+                    Helper helper = new Helper();
+                    int i = helper.xyToI(X - 92, Y - 92);
+                    int j = helper.xyToJ(X - 92, Y - 92);
+                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                        gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                    }
+                    eventType = 0;
                 }
-                eventType = 0;
             }
             else if(eventType == 2){
-                Helper helper = new Helper();
-                int i = helper.xyToI(X - 92, Y - 92);
-                int j = helper.xyToJ(X - 92, Y - 92);
-                if(i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                    gameEntities.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                if (X >= 125 && X <= 184 && Y >= 597.0 && Y <= 627.0){
+                    eventType = 0;
+                    money += Config.blasterCost;
                 }
-                eventType = 0;
+                else {
+                    Helper helper = new Helper();
+                    int i = helper.xyToI(X - 92, Y - 92);
+                    int j = helper.xyToJ(X - 92, Y - 92);
+                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                        gameEntities.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                    }
+                    eventType = 0;
+                }
             }
             else if(eventType == 3){
-                Helper helper = new Helper();
-                int i = helper.xyToI(X - 92, Y - 92);
-                int j = helper.xyToJ(X - 92, Y - 92);
-                if(i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                    gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                if (X >= 213 && X <= 275 && Y >= 597.0 && Y <= 627.0){
+                    eventType = 0;
+                    money += Config.cannonCost;
                 }
-                eventType = 0;
+                else {
+                    Helper helper = new Helper();
+                    int i = helper.xyToI(X - 92, Y - 92);
+                    int j = helper.xyToJ(X - 92, Y - 92);
+                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                        gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                    }
+                    eventType = 0;
+                }
             }
             else if(eventType == 4){
-                Helper helper = new Helper();
-                int i = helper.xyToI(X - 92, Y - 92);
-                int j = helper.xyToJ(X - 92, Y - 92);
-                if(i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                    gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                if (X >= 305 && X <= 366 && Y >= 597.0 && Y <= 627.0){
+                    eventType = 0;
+                    money += Config.catapultCost;
                 }
-                eventType = 0;
+                else {
+                    Helper helper = new Helper();
+                    int i = helper.xyToI(X - 92, Y - 92);
+                    int j = helper.xyToJ(X - 92, Y - 92);
+                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                        gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                    }
+                    eventType = 0;
+                }
             }
         });
     }

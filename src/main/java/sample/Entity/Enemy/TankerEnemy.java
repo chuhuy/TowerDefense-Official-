@@ -15,6 +15,7 @@ public class TankerEnemy extends Enemy {
         setSpeed(Config.TankerSpeed);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setPrize(75);
         setX(x);
         setY(y);
         this.map = map;
