@@ -6,6 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.Entity.Bullet.Bullet;
@@ -14,10 +16,7 @@ import sample.Entity.Spawner.Spawner;
 import sample.Entity.Target;
 import sample.Entity.Tower.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -29,13 +28,11 @@ public class GameStage extends MyStage{
     public List<Enemy> enemies = new ArrayList<>();
     public Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
-<<<<<<< HEAD
-    private int money = 100;
-    private int playerHealth = 1000;
-=======
     private int money = 1000;
->>>>>>> b982380309bd18af51be31c75c5382847d634821
+    private int playerHealth = 1000;
     private double waveInterval = Config.normalInterval;
+    private boolean isAuto = false;
+    private int buildRate = Config.towerRefreshRate;
 
     private String[][] map = new String[20][20];
 
@@ -165,20 +162,6 @@ public class GameStage extends MyStage{
         this.level = level;
         this.getMap();
         this.getEnemy();
-<<<<<<< HEAD
-=======
-
-        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        //enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-        //enemies.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
-        //enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-
-
->>>>>>> b982380309bd18af51be31c75c5382847d634821
         gameEntities.add(sp);
         gameEntities.add(target);
     }
@@ -191,10 +174,22 @@ public class GameStage extends MyStage{
 
 
     private void renderBar(GraphicsContext gc, Group root){
-        //gc.drawImage(
-        //        new Image("file:src/main/java/images/setting.png"),
-        //        5, 5, 40, 40
-        //);
+        Button auto = new Button();
+        auto.setMaxSize(40, 35);
+        auto.setMinSize(40, 35);
+        auto.setLayoutX(5);
+        auto.setLayoutY(5);
+        auto.setStyle("-fx-background-color: transparent;");
+        root.getChildren().add(auto);
+
+        auto.setOnMouseClicked(some ->{
+            isAuto = !isAuto;
+            System.out.println("Auto: " + isAuto);
+        });
+        gc.drawImage(
+                new Image("file:src/main/java/images/auto.png"),
+                5, 5, 40, 35
+        );
         gc.drawImage(
                 new Image("file:src/main/java/images/cancel.png"),
                 50, 12, 25, 25
@@ -245,7 +240,6 @@ public class GameStage extends MyStage{
             if (waveInterval == 0) {
                 enemies.add(enemyList.poll());
                 waveInterval = Config.normalInterval;
-                System.out.println(enemyList.size());
             } else waveInterval--;
         }
         if(!enemies.isEmpty()) {
@@ -294,10 +288,59 @@ public class GameStage extends MyStage{
         renderEnemy(gc);
         renderBullet(gc);
         renderMoney(gc);
-<<<<<<< HEAD
         renderHealth(gc);
-=======
->>>>>>> b982380309bd18af51be31c75c5382847d634821
+    }
+
+    private void autoBuild(){
+        int I = 0;
+        int J = 0;
+        int[][] quantities = new int[20][20];
+        for(int j = 0; j < 20; j++){
+            for(int i = 0; i < 20; i++){
+                quantities[i][j] = 0;
+            }
+        }
+        int max = 0;
+        for(var enemy : enemies){
+            Helper helper = new Helper();
+            int i = helper.xyToI(enemy.x, enemy.y);
+            int j = helper.xyToJ(enemy.x, enemy.y);
+
+            int[] _i = {1, -1, 0, 0};
+            int[] _j = {0, 0 , 1, -1};
+            for(int k = 0; k < 4; k++){
+                if(i + _i[k] >= 0 && i + _i[k] <= 19 && j + _j[k] >= 0 && j + _j[k] <= 19){
+                    if(map[i + _i[k]][j + _j[k]].equals("418")) quantities[i + _i[k]][j + _j[k]]++;
+                }
+            }
+        }
+        for(int j = 0; j < 20; j++){
+            for(int i = 0; i < 20; i++){
+                if(quantities[i][j] > max) {
+                    max = quantities[i][j];
+                    I = i;
+                    J = j;
+                }
+            }
+        }
+        if(max != 0) {
+            Helper helper = new Helper();
+            double x = helper.ijToX(I, J);
+            double y = helper.ijToY(I, J);
+            if (money >= 200) {
+                gameEntities.add(new BlasterTower(x, y, enemies, bullets));
+                money -= Config.blasterCost;
+            } else if (money >= 150) {
+                gameEntities.add(new CatapultTower(x, y, enemies, bullets));
+                money -= Config.catapultCost;
+            } else if (money >= 130) {
+                gameEntities.add(new CannonTower(x, y, enemies, bullets));
+                money -= Config.cannonCost;
+            } else if (money >= 50) {
+                gameEntities.add(new BallistaTower(x, y, enemies, bullets));
+                money -= Config.ballistaCost;
+            }
+        }
     }
 
     public void update(){
@@ -308,6 +351,10 @@ public class GameStage extends MyStage{
         if(!enemies.isEmpty()) {
             if (enemies.get(0).isDead()) {
                 money += enemies.get(0).getPrize();
+                //String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/1_t2.mp3";
+                //Media media = new Media(new File(path).toURI().toString());
+                //MediaPlayer mediaPlayer = new MediaPlayer(media);
+                //mediaPlayer.play();
             }
         }
         enemies.removeIf(Enemy::isDead);
@@ -327,102 +374,154 @@ public class GameStage extends MyStage{
     }
 
     public void event(Scene scene){
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+        if(!isAuto) {
+            scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
 
-            double X = mouseEvent.getX();
-            double Y = mouseEvent.getY();
-            if(X >= 50 && X <= 75 && Y >= 12 && Y <= 37){
-                try {
-                    saveGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(eventType == 0) {
-                if (Y >= 597.0 && Y <= 627.0) {
-                    if (X >= 31 && X <= 93 && money >= Config.ballistaCost) {
-                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
-                        eventType = 1;
-                        money -= Config.ballistaCost;
-                    }
-                    if (X >= 125 && X <= 184 && money >= Config.blasterCost) {
-                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
-                        eventType = 2;
-                        money -= Config.blasterCost;
-                    }
-                    if (X >= 213 && X <= 275 && money >= Config.cannonCost) {
-                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
-                        eventType = 3;
-                        money -= Config.cannonCost;
-                    }
-                    if (X >= 305 && X <= 366 && money >= Config.catapultCost) {
-                        //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
-                        eventType = 4;
-                        money -= Config.catapultCost;
+                double X = mouseEvent.getX();
+                double Y = mouseEvent.getY();
+
+                if (X >= 50 && X <= 75 && Y >= 12 && Y <= 37) {
+                    try {
+                        saveGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-            }
-            else if(eventType == 1){
-                if (X >= 31 && X <= 93 && Y >= 597.0 && Y <= 627.0){
-                    eventType = 0;
-                    money += Config.ballistaCost;
-                } //Re-click the tower symbol to cancel planting tower
-                else {
-                    Helper helper = new Helper();
-                    int i = helper.xyToI(X - 92, Y - 92);
-                    int j = helper.xyToJ(X - 92, Y - 92);
-                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                        gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                if (eventType == 0) {
+                    if (Y >= 597.0 && Y <= 627.0) {
+                        if (X >= 31 && X <= 93 && money >= Config.ballistaCost) {
+                            //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
+                            eventType = 1;
+                            money -= Config.ballistaCost;
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        if (X >= 125 && X <= 184 && money >= Config.blasterCost) {
+                            //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
+                            eventType = 2;
+                            money -= Config.blasterCost;
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        if (X >= 213 && X <= 275 && money >= Config.cannonCost) {
+                            //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
+                            eventType = 3;
+                            money -= Config.cannonCost;
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        if (X >= 305 && X <= 366 && money >= Config.catapultCost) {
+                            //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
+                            eventType = 4;
+                            money -= Config.catapultCost;
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
                     }
-                    eventType = 0;
-                }
-            }
-            else if(eventType == 2){
-                if (X >= 125 && X <= 184 && Y >= 597.0 && Y <= 627.0){
-                    eventType = 0;
-                    money += Config.blasterCost;
-                }
-                else {
-                    Helper helper = new Helper();
-                    int i = helper.xyToI(X - 92, Y - 92);
-                    int j = helper.xyToJ(X - 92, Y - 92);
-                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                        gameEntities.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                } else if (eventType == 1) {
+                    if (X >= 31 && X <= 93 && Y >= 597.0 && Y <= 627.0) {
+                        eventType = 0;
+                        money += Config.ballistaCost;
+                        String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                        Media media = new Media(new File(path).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    } //Re-click the tower symbol to cancel planting tower
+                    else {
+                        Helper helper = new Helper();
+                        int i = helper.xyToI(X - 92, Y - 92);
+                        int j = helper.xyToJ(X - 92, Y - 92);
+                        if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                            gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/3_turretbuild.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        eventType = 0;
                     }
-                    eventType = 0;
-                }
-            }
-            else if(eventType == 3){
-                if (X >= 213 && X <= 275 && Y >= 597.0 && Y <= 627.0){
-                    eventType = 0;
-                    money += Config.cannonCost;
-                }
-                else {
-                    Helper helper = new Helper();
-                    int i = helper.xyToI(X - 92, Y - 92);
-                    int j = helper.xyToJ(X - 92, Y - 92);
-                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                        gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                } else if (eventType == 2) {
+                    if (X >= 125 && X <= 184 && Y >= 597.0 && Y <= 627.0) {
+                        eventType = 0;
+                        money += Config.blasterCost;
+                        String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                        Media media = new Media(new File(path).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    } else {
+                        Helper helper = new Helper();
+                        int i = helper.xyToI(X - 92, Y - 92);
+                        int j = helper.xyToJ(X - 92, Y - 92);
+                        if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                            gameEntities.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/3_turretbuild.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        eventType = 0;
                     }
-                    eventType = 0;
-                }
-            }
-            else if(eventType == 4){
-                if (X >= 305 && X <= 366 && Y >= 597.0 && Y <= 627.0){
-                    eventType = 0;
-                    money += Config.catapultCost;
-                }
-                else {
-                    Helper helper = new Helper();
-                    int i = helper.xyToI(X - 92, Y - 92);
-                    int j = helper.xyToJ(X - 92, Y - 92);
-                    if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
-                        gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                } else if (eventType == 3) {
+                    if (X >= 213 && X <= 275 && Y >= 597.0 && Y <= 627.0) {
+                        eventType = 0;
+                        money += Config.cannonCost;
+                        String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                        Media media = new Media(new File(path).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    } else {
+                        Helper helper = new Helper();
+                        int i = helper.xyToI(X - 92, Y - 92);
+                        int j = helper.xyToJ(X - 92, Y - 92);
+                        if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                            gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/3_turretbuild.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        eventType = 0;
                     }
+                } else if (eventType == 4) {
+                    if (X >= 305 && X <= 366 && Y >= 597.0 && Y <= 627.0) {
+                        eventType = 0;
+                        money += Config.catapultCost;
+                        String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+                        Media media = new Media(new File(path).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    } else {
+                        Helper helper = new Helper();
+                        int i = helper.xyToI(X - 92, Y - 92);
+                        int j = helper.xyToJ(X - 92, Y - 92);
+                        if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
+                            gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                            String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/3_turretbuild.mp3";
+                            Media media = new Media(new File(path).toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                        }
+                        eventType = 0;
+                    }
+                } else {
                     eventType = 0;
                 }
-            }
-        });
+            });
+        }
+        else{
+            if (buildRate == 0) {
+                autoBuild();
+                buildRate = Config.towerRefreshRate;
+            } else buildRate--;
+        }
     }
     /*
     Note: Enemy Type: 1 - Boss, 2 - Normal, 3 - Smaller, 4 - Tanker
@@ -475,5 +574,3 @@ public class GameStage extends MyStage{
     }
 
 }
-
-//}
