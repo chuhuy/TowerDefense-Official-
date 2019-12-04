@@ -75,7 +75,7 @@ public class Config {
     public final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-    public final static String enemylvl1 = "111  111  112  222  223 222";
+    public final static String enemylvl1 = "222";
 
 
     Config(){

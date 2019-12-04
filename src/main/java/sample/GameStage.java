@@ -29,6 +29,7 @@ public class GameStage extends MyStage{
     public Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
     private int money = 100;
+    private int playerHealth = 1000;
     private double waveInterval = Config.normalInterval;
 
     private String[][] map = new String[20][20];
@@ -51,25 +52,12 @@ public class GameStage extends MyStage{
             e.printStackTrace();
         }
     }
+
     public void getEnemy() {
-        //Scanner sc = new Scanner(Config.enemylvl1);
-        //while(sc.hasNext()){
         String m = Config.enemylvl1;
-        System.out.println(m);
-        System.out.println(m.length());
+        //System.out.println(m);
+        //System.out.println(m.length());
         for(int i=0; i < m.length(); i++) {
-            /*
-            switch (m.charAt(i)) {
-                case '1':
-                    enemyList.add(new NormalEnemy(sp.getX(), sp.getY(), map));
-                case '2':
-                    enemyList.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
-                case '3':
-                    enemyList.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-                case '4':
-                    enemyList.add(new BossEnemy(sp.getX(), sp.getY(), map));
-            }
-             */
             if(m.charAt(i) == '1') enemyList.add(new NormalEnemy(sp.getX(), sp.getY(), map));
             else if(m.charAt(i) == '2') enemyList.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
                 else if(m.charAt(i) == '3') enemyList.add(new TankerEnemy(sp.getX(), sp.getY(), map));
@@ -122,17 +110,6 @@ public class GameStage extends MyStage{
         this.level = level;
         this.getMap();
         this.getEnemy();
-        /*
-        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-        enemies.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
-        enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-         */
-
         gameEntities.add(sp);
         gameEntities.add(target);
     }
@@ -195,7 +172,6 @@ public class GameStage extends MyStage{
 
     }
     private void renderEnemy(GraphicsContext gc){
-
         if(!enemyList.isEmpty()) {
             if (waveInterval == 0) {
                 enemies.add(enemyList.poll());
@@ -203,19 +179,19 @@ public class GameStage extends MyStage{
                 System.out.println(enemyList.size());
             } else waveInterval--;
         }
-
-
         if(!enemies.isEmpty()) {
             for (Enemy enemy : enemies) {
                 enemy.render(gc);
             }
         }
     }
+
     private void renderBullet(GraphicsContext gc){
         for(Bullet bullet : bullets){
             bullet.render(gc);
         }
     }
+
     private void renderTower(GraphicsContext gc) {
         for (GameEntity gameEntity : gameEntities) {
             gameEntity.render(gc);
@@ -231,13 +207,25 @@ public class GameStage extends MyStage{
             gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 600, 50, 50);
         }
     }
+
+    public void renderHealth(GraphicsContext gc){
+        int x = 800;
+        String m = toString().valueOf(playerHealth);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_health(temporary).png"), x, 41, 45, 45);
+        for (int i = 0; i < m.length(); i++) {
+            x += 30;
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 30, 60, 60);
+        }
+    }
+
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
         renderBar(gc);
         renderTower(gc);
         renderEnemy(gc);
         renderBullet(gc);
-        //renderMoney(gc);
+        renderMoney(gc);
+        renderHealth(gc);
     }
 
     public void update(){
@@ -251,10 +239,13 @@ public class GameStage extends MyStage{
             }
         }
         enemies.removeIf(Enemy::isDead);
-        for(Enemy enemy : enemies){
+        enemies.removeIf(Enemy::isSurvive);
+        for(Enemy enemy : enemies) {
             enemy.update();
+            if(enemy.isSurvive()){
+                playerHealth -= enemy.getDamage();
+            }
         }
-
 
         //bullets.removeIf(Bullet::isDisposed);
         for(Bullet bullet : bullets){

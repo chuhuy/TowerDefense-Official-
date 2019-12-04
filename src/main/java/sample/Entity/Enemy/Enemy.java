@@ -12,21 +12,20 @@ abstract public class Enemy extends GameEntity {
     private int prize;
     private DIRECTION direction = DIRECTION.NORTH;
     private boolean dead = false;
+    private boolean survive = false;
 
     public void setHealth(double health) {
         this.health = health;
     }
-
     public double getHealth() {
         return health;
     }
-
     public boolean isDead() {
         return dead;
     }
-    public void setDead(boolean dead) {
-        this.dead = dead;
-    }
+    public void setDead(boolean dead) { this.dead = dead; }
+    public boolean isSurvive() { return survive; }
+    public void setSurvive(boolean survive) { this.survive = survive; }
     public void setDirection(DIRECTION direction) {
         this.direction = direction;
     }

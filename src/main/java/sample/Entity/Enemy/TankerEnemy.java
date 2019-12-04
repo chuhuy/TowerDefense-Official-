@@ -91,7 +91,7 @@ public class TankerEnemy extends Enemy {
             }
         }
         else{
-            this.setDead(true);
+            this.setSurvive(true);
         }
 
     }

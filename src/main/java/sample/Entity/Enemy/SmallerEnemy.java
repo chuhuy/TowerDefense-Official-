@@ -91,7 +91,7 @@ public class SmallerEnemy extends Enemy{
             }
         }
         else{
-            this.setDead(true);
+            this.setSurvive(true);
         }
 
     }

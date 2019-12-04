@@ -90,7 +90,7 @@ public class NormalEnemy extends Enemy {
             }
         }
         else{
-            this.setDead(true);
+            this.setSurvive(true);
         }
 
     }

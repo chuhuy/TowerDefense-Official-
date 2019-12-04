@@ -49,6 +49,7 @@ public class BallistaTower extends Tower{
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E +".png"), x, y - 15, width, height
         );
     }
+
     @Override
     public void update() {
         this.updateTargetQueue(enemies);

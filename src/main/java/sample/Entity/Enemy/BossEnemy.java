@@ -92,7 +92,7 @@ public class BossEnemy extends Enemy {
             }
         }
         else{
-            this.setDead(true);
+            this.setSurvive(true);
         }
 
     }
