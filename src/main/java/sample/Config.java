@@ -24,7 +24,7 @@ public class Config {
     //Smaller Enemy
     public final static double smallerHealth = 25.0;
     public final static double smallerDamage = 15.0;
-    public final static double smallerSpeed = 7.0;
+    public final static double smallerSpeed = 5.0;
     //Boss Enemy
     public final static double bossHealth = 150.0;
     public final static double bossDamage = 15.0;

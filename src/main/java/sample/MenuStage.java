@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.util.Stack;
@@ -21,6 +22,7 @@ public class MenuStage extends MyStage{
             new Image("file:src/main/java/images/menu.png"),
                 0,0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT
         );
+        /*
         //start button
         Button startButton = new Button();
         int startButton_x = 500;
@@ -66,6 +68,8 @@ public class MenuStage extends MyStage{
             stageStack.pop();
             stageStack.push(game);
         });
+
+         */
     }
 
     @Override
@@ -75,7 +79,32 @@ public class MenuStage extends MyStage{
 
     @Override
     public void event(Scene scene) {
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
 
+            double X = mouseEvent.getX();
+            double Y = mouseEvent.getY();
+
+            if(X >= 610 && X <= 770 && Y >= 476 && Y < (476 + 47)){
+                MyStage game = null;
+                try {
+                    game = new GameStage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    game = new GameStage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stageStack.pop();
+                stageStack.push(game);
+            }
+            else if(X >= 500 && X <= 698 && Y >= 377 && Y <= (377+56)){
+                GameStage game = new GameStage(1);
+                stageStack.pop();
+                stageStack.push(game);
+            }
+        });
     }
 
 }
