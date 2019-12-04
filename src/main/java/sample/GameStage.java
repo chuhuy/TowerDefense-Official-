@@ -3,6 +3,7 @@ package sample;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
@@ -28,7 +29,7 @@ public class GameStage extends MyStage{
     public List<Enemy> enemies = new ArrayList<>();
     public Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
-    private int money = 100;
+    private int money = 1000;
     private double waveInterval = Config.normalInterval;
 
     private String[][] map = new String[20][20];
@@ -112,6 +113,56 @@ public class GameStage extends MyStage{
                 break;
             }
         }
+        JSONArray enemyQueue = json.getJSONArray("enemyqueue");
+        for(int i = 0; i < enemyQueue.length(); i++){
+            double x = enemyQueue.getJSONObject(i).getDouble("x");
+            double y = enemyQueue.getJSONObject(i).getDouble("y");
+            int health = enemyQueue.getJSONObject(i).getInt("health");
+            String direction = enemyQueue.getJSONObject(i).getString("direction");
+
+            switch (enemyQueue.getJSONObject(i).getInt("type")){
+                case 1:{
+                    enemyList.add(new BossEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                }
+                break;
+                case 2:{
+                    enemyList.add(new NormalEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                }
+                break;
+                case 3:{
+                    enemyList.add(new SmallerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                }
+                break;
+                case 4:{
+                    enemyList.add(new TankerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                }
+                break;
+            }
+        }
+        JSONArray tower = json.getJSONArray("towers");
+        for(int i = 0; i < tower.length(); i++){
+            double x = tower.getJSONObject(i).getDouble("x");
+            double y = tower.getJSONObject(i).getDouble("y");
+
+            switch (tower.getJSONObject(i).getInt("type")){
+                case 1:{
+                    gameEntities.add(new BallistaTower(x, y, enemies, bullets));
+                }
+                break;
+                case 2:{
+                    gameEntities.add(new BlasterTower(x, y, enemies, bullets));
+                }
+                break;
+                case 3:{
+                    gameEntities.add(new CannonTower(x, y, enemies, bullets));
+                }
+                break;
+                case 4:{
+                    gameEntities.add(new CatapultTower(x, y, enemies, bullets));
+                }
+                break;
+            }
+        }
 
         gameEntities.add(sp);
         gameEntities.add(target);
@@ -122,16 +173,16 @@ public class GameStage extends MyStage{
         this.level = level;
         this.getMap();
         this.getEnemy();
-        /*
-        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-        enemies.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
-        enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
-        enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-         */
+
+        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
+        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
+        //enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
+        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
+        //enemies.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
+        //enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
+        //enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
+        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
+
 
         gameEntities.add(sp);
         gameEntities.add(target);
@@ -144,15 +195,15 @@ public class GameStage extends MyStage{
     }
 
 
-    private void renderBar(GraphicsContext gc){
+    private void renderBar(GraphicsContext gc, Group root){
         //gc.drawImage(
         //        new Image("file:src/main/java/images/setting.png"),
         //        5, 5, 40, 40
         //);
-        //gc.drawImage(
-        //        new Image("file:src/main/java/images/cancel.png"),
-        //        50, 12, 25, 25
-        //);
+        gc.drawImage(
+                new Image("file:src/main/java/images/cancel.png"),
+                50, 12, 25, 25
+        );
         for(int i = 1; i <= 4; i++) {
             gc.drawImage(
                     new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/00" + i + ".png"),
@@ -233,11 +284,11 @@ public class GameStage extends MyStage{
     }
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
-        renderBar(gc);
+        renderBar(gc, root);
         renderTower(gc);
         renderEnemy(gc);
         renderBullet(gc);
-        //renderMoney(gc);
+        renderMoney(gc);
     }
 
     public void update(){
@@ -268,17 +319,19 @@ public class GameStage extends MyStage{
 
             double X = mouseEvent.getX();
             double Y = mouseEvent.getY();
+            if(X >= 50 && X <= 75 && Y >= 12 && Y <= 37){
+                try {
+                    saveGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if(eventType == 0) {
                 if (Y >= 597.0 && Y <= 627.0) {
                     if (X >= 31 && X <= 93 && money >= Config.ballistaCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
                         eventType = 1;
                         money -= Config.ballistaCost;
-                        try {
-                            saveGame();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                     if (X >= 125 && X <= 184 && money >= Config.blasterCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
@@ -406,6 +459,7 @@ public class GameStage extends MyStage{
         PrintWriter writer = new PrintWriter("./src/main/java/savegame/saveGame.txt", StandardCharsets.UTF_8);
         writer.println(jsonString);
         writer.close();
+        System.exit(0);
     }
 
 }
