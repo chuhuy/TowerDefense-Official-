@@ -72,11 +72,17 @@ public class Config {
     public final static double bulletSize = 8.0;
 
 //Spawner Config
-    public final static double normalInterval = 10.0;
+    final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
+<<<<<<< HEAD
     public final static String enemylvl1 = "1111111111111111111111";
+=======
+    final static String enemylvl1 = "222";
+>>>>>>> 50cb0b9a7b85eb6cf2e06990f54bde02f8ab5036
 
+//AutoPlay
+    final static int towerRefreshRate = 35;
 
     Config(){
 

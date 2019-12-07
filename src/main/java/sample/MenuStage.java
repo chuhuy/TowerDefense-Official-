@@ -52,8 +52,7 @@ public class MenuStage extends MyStage{
         int loadSaveGame_width = 160;
         loadSaveGame.setMinSize(loadSaveGame_width, loadSaveGame_height);
         loadSaveGame.setMaxSize(loadSaveGame_width, loadSaveGame_height);
-        //startButton.setStyle("-fx-background-color: transparent;");
-        loadSaveGame.setText("Load Save Game");
+        startButton.setStyle("-fx-background-color: transparent;");
         root.getChildren().add(loadSaveGame);
 
         loadSaveGame.setOnMouseReleased(some -> {
