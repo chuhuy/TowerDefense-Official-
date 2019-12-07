@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
@@ -27,14 +28,11 @@ public class GameStage extends MyStage{
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
     public List<Enemy> enemies = new ArrayList<>();
+    //public List<Tower> towers = new ArrayList<>();
     public Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
-<<<<<<< HEAD
-    private int money = 100;
-    private int playerHealth = 1000;
-=======
     private int money = 1000;
->>>>>>> b982380309bd18af51be31c75c5382847d634821
+    private int playerHealth = 1000;
     private double waveInterval = Config.normalInterval;
 
     private String[][] map = new String[20][20];
@@ -70,6 +68,8 @@ public class GameStage extends MyStage{
         }
     }
 
+
+
     //Init game from save game file
     GameStage() throws IOException {
         Helper helper = new Helper();
@@ -89,18 +89,22 @@ public class GameStage extends MyStage{
             switch (enemyJson.getJSONObject(i).getInt("type")){
                 case 1:{
                     enemies.add(new BossEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                    //gameEntities.add(new BossEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
                 }
                 break;
                 case 2:{
                     enemies.add(new NormalEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                    //gameEntities.add(new NormalEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
                 }
                 break;
                 case 3:{
                     enemies.add(new SmallerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                    //gameEntities.add(new SmallerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
                 }
                 break;
                 case 4:{
                     enemies.add(new TankerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
+                    //gameEntities.add(new TankerEnemy(x, y, map, health, DIRECTION.valueOf(direction)));
                 }
                 break;
             }
@@ -139,18 +143,22 @@ public class GameStage extends MyStage{
             switch (tower.getJSONObject(i).getInt("type")){
                 case 1:{
                     gameEntities.add(new BallistaTower(x, y, enemies, bullets));
+                    //towers.add(new BallistaTower(x, y, enemies, bullets));
                 }
                 break;
                 case 2:{
                     gameEntities.add(new BlasterTower(x, y, enemies, bullets));
+                    //towers.add(new BlasterTower(x, y, enemies, bullets));
                 }
                 break;
                 case 3:{
                     gameEntities.add(new CannonTower(x, y, enemies, bullets));
+                    //towers.add(new CannonTower(x, y, enemies, bullets));
                 }
                 break;
                 case 4:{
                     gameEntities.add(new CatapultTower(x, y, enemies, bullets));
+                    //towers.add(new CatapultTower(x, y, enemies, bullets));
                 }
                 break;
             }
@@ -165,20 +173,6 @@ public class GameStage extends MyStage{
         this.level = level;
         this.getMap();
         this.getEnemy();
-<<<<<<< HEAD
-=======
-
-        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        //enemyList.add(new NormalEnemy(sp.getX(),sp.getY(), map));
-        //enemyList.add(new TankerEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-        //enemies.add(new SmallerEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
-        //enemies.add(new BossEnemy(sp.getX(),sp.getY(), map));
-        //enemies.add(new TankerEnemy(sp.getX(), sp.getY(), map));
-
-
->>>>>>> b982380309bd18af51be31c75c5382847d634821
         gameEntities.add(sp);
         gameEntities.add(target);
     }
@@ -240,20 +234,39 @@ public class GameStage extends MyStage{
 
 
     }
+
+    /*
     private void renderEnemy(GraphicsContext gc){
         if(!enemyList.isEmpty()) {
             if (waveInterval == 0) {
                 enemies.add(enemyList.poll());
+                //gameEntities.add(enemyList.poll());
                 waveInterval = Config.normalInterval;
-                System.out.println(enemyList.size());
+                //System.out.println(enemyList.size());
             } else waveInterval--;
         }
+
+        for(int i=0; i<enemies.size()-1; i++){
+            for (int j=i+1; j<enemies.size(); j++){
+                if(enemies.get(i).getY() > enemies.get(j).getY()){
+                    Enemy tmp = enemies.get(i);
+                    enemies.set(i, enemies.get(j));
+                    enemies.set(j, tmp);
+                }
+            }
+        }
+
+
+
         if(!enemies.isEmpty()) {
             for (Enemy enemy : enemies) {
                 enemy.render(gc);
             }
         }
     }
+    */
+
+
 
     private void renderBullet(GraphicsContext gc){
         for(Bullet bullet : bullets){
@@ -261,11 +274,144 @@ public class GameStage extends MyStage{
         }
     }
 
+    /*
     private void renderTower(GraphicsContext gc) {
+        //for (GameEntity gameEntity : gameEntities) {
+            //gameEntity.render(gc);
+        //}
+
+        for(int i=0; i<towers.size()-1; i++){
+            for (int j=i+1; j<towers.size(); j++){
+                if(towers.get(i).getY() > towers.get(j).getY()){
+                    Tower tmp = towers.get(i);
+                    towers.set(i, towers.get(j));
+                    towers.set(j, tmp);
+                }
+            }
+        }
+
+        for(Tower tower : towers){
+            tower.render(gc);
+        }
+    }
+
+     */
+
+    private void renderEntities(GraphicsContext gc){
+
+        if(!enemyList.isEmpty()) {
+            if (waveInterval == 0) {
+                //enemies.add(enemyList.poll());
+                enemies.add(enemyList.peek());
+                gameEntities.add(enemyList.poll());
+                waveInterval = Config.normalInterval;
+                //System.out.println(enemyList.size());
+            } else waveInterval--;
+        }
+
+        /*
+        gameEntities.sort(new Comparator<GameEntity>() {
+            @Override
+            public int compare(GameEntity gameEntity, GameEntity t1) {
+                if(gameEntity.getY() > t1.getY() && gameEntity.getX() > t1.getX()) return 1;
+                else if(gameEntity.getY() > t1.getY() && gameEntity.getX() <= t1.getX()) return 0;
+                else if(gameEntity.getY() <= t1.getY() && gameEntity.getX() > t1.getX()) return 1;
+                else return 0;
+            }
+        });
+
+         */
+
+        for(int i=0; i<gameEntities.size(); i++){
+            for(int j=i+1; j<gameEntities.size(); j++){
+                if(gameEntities.get(i).getY() > gameEntities.get(j).getY()){
+                    GameEntity tmp = gameEntities.get(i);
+                    gameEntities.set(i, gameEntities.get(j));
+                    gameEntities.set(j, tmp);
+                }
+            }
+        }
+
+
+        /*
+        if(!enemyList.isEmpty()) {
+            if (waveInterval == 0) {
+                if(!enemies.isEmpty()) {
+                    for (int i = 0; i < enemies.size(); i++) {
+                        //assert enemyList.peek() != null;//Để tạm đây nhá, máy nó sửa đấy
+                        if (enemyList.peek().getY() >= enemies.get(i).getY()) {
+                            enemies.add(i, enemyList.poll());
+                        }
+                    }
+                }
+                else enemies.add(enemyList.poll());
+                //gameEntities.add(enemyList.poll());
+                waveInterval = Config.normalInterval;
+                //System.out.println(enemyList.size());
+            } else waveInterval--;
+        }
+
+        if(enemies.size() >= 2) {
+            for (int i = 0; i < enemies.size() - 1; i++) {
+                for (int j = i + 1; j < enemies.size(); j++) {
+                    if (enemies.get(i).getY() > enemies.get(j).getY()) {
+                        Enemy tmp = enemies.get(i);
+                        enemies.set(i, enemies.get(j));
+                        enemies.set(j, tmp);
+                    }
+                }
+            }
+        }
+
+
+        if(towers.size() >= 2) {
+            for (int i = 0; i < towers.size() - 1; i++) {
+                for (int j = i + 1; j < towers.size(); j++) {
+                    if (towers.get(i).getY() > towers.get(j).getY()) {
+                        Tower tmp = towers.get(i);
+                        towers.set(i, towers.get(j));
+                        towers.set(j, tmp);
+                    }
+                }
+            }
+        }
+
+
+
+        int Ecount = 0, Tcount = 0;
+        if(!enemies.isEmpty()) {
+            if(towers.isEmpty()){
+                gameEntities.addAll(enemies);
+            }
+            else {
+                while (Ecount < enemies.size() && Tcount < towers.size()){
+                    if (enemies.get(Ecount).getY() >= towers.get(Tcount).getY()) {
+                        gameEntities.add(towers.get(Tcount));
+                        Tcount++;
+                    } else {
+                        gameEntities.add(enemies.get(Ecount));
+                        Ecount++;
+                    }
+                }
+                while(Ecount < enemies.size()){
+                    gameEntities.add(enemies.get(Ecount));
+                    Ecount++;
+                }
+                while(Tcount < towers.size()){
+                    gameEntities.add(towers.get(Tcount));
+                    Tcount++;
+                }
+            }
+        }
+        */
+
+
         for (GameEntity gameEntity : gameEntities) {
             gameEntity.render(gc);
         }
     }
+
+
 
     private void renderMoney(GraphicsContext gc){
         int x = 850;
@@ -290,14 +436,12 @@ public class GameStage extends MyStage{
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
         renderBar(gc, root);
-        renderTower(gc);
-        renderEnemy(gc);
+        renderEntities(gc);
+        //renderTower(gc);
+        //renderEnemy(gc);
         renderBullet(gc);
         renderMoney(gc);
-<<<<<<< HEAD
         renderHealth(gc);
-=======
->>>>>>> b982380309bd18af51be31c75c5382847d634821
     }
 
     public void update(){
@@ -305,6 +449,7 @@ public class GameStage extends MyStage{
         for(GameEntity gameEntity : gameEntities) {
             gameEntity.update();
         }
+
         if(!enemies.isEmpty()) {
             if (enemies.get(0).isDead()) {
                 money += enemies.get(0).getPrize();
@@ -344,21 +489,25 @@ public class GameStage extends MyStage{
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png")));
                         eventType = 1;
                         money -= Config.ballistaCost;
+                        System.out.println(eventType);
                     }
                     if (X >= 125 && X <= 184 && money >= Config.blasterCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png")));
                         eventType = 2;
                         money -= Config.blasterCost;
+                        System.out.println(eventType);
                     }
                     if (X >= 213 && X <= 275 && money >= Config.cannonCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png")));
                         eventType = 3;
                         money -= Config.cannonCost;
+                        System.out.println(eventType);
                     }
                     if (X >= 305 && X <= 366 && money >= Config.catapultCost) {
                         //scene.setCursor(new ImageCursor(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png")));
                         eventType = 4;
                         money -= Config.catapultCost;
+                        System.out.println(eventType);
                     }
                 }
             }
@@ -373,6 +522,18 @@ public class GameStage extends MyStage{
                     int j = helper.xyToJ(X - 92, Y - 92);
                     if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
                         gameEntities.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                        //towers.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                        /*
+                        if(!towers.isEmpty()) {
+                            for (int k = 0; k < gameEntities.size(); k++) {
+                                if (Y >= gameEntities.get(k).getY()) {
+                                    gameEntities.add(k, new BallistaTower(X - 92, Y - 92, enemies, bullets));
+                                }
+                            }
+                        }
+                        else towers.add(new BallistaTower(X - 92, Y - 92, enemies, bullets));
+
+                         */
                     }
                     eventType = 0;
                 }
@@ -388,6 +549,18 @@ public class GameStage extends MyStage{
                     int j = helper.xyToJ(X - 92, Y - 92);
                     if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
                         gameEntities.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                        //towers.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                        /*
+                        if(!towers.isEmpty()) {
+                            for (int k = 0; k < towers.size(); k++) {
+                                if (Y >= towers.get(k).getY()) {
+                                    towers.add(k, new BlasterTower(X - 92, Y - 92, enemies, bullets));
+                                }
+                            }
+                        }
+                        else towers.add(new BlasterTower(X - 92, Y - 92, enemies, bullets));
+
+                         */
                     }
                     eventType = 0;
                 }
@@ -403,6 +576,18 @@ public class GameStage extends MyStage{
                     int j = helper.xyToJ(X - 92, Y - 92);
                     if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
                         gameEntities.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                        //towers.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+                        /*
+                        if(!towers.isEmpty()) {
+                            for (int k = 0; k < towers.size(); k++) {
+                                if (Y >= towers.get(k).getY()) {
+                                    towers.add(k, new CannonTower(X - 92, Y - 92, enemies, bullets));
+                                }
+                            }
+                        }
+                        else towers.add(new CannonTower(X - 92, Y - 92, enemies, bullets));
+
+                         */
                     }
                     eventType = 0;
                 }
@@ -418,6 +603,18 @@ public class GameStage extends MyStage{
                     int j = helper.xyToJ(X - 92, Y - 92);
                     if (i >= 0 && i <= 19 && j >= 0 && j <= 19) {
                         gameEntities.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                        //towers.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                        /*
+                        if(!towers.isEmpty()) {
+                            for (int k = 0; k < towers.size(); k++) {
+                                if (Y >= towers.get(k).getY()) {
+                                    towers.add(k, new CatapultTower(X - 92, Y - 92, enemies, bullets));
+                                }
+                            }
+                        }
+                        else towers.add(new CatapultTower(X - 92, Y - 92, enemies, bullets));
+
+                         */
                     }
                     eventType = 0;
                 }

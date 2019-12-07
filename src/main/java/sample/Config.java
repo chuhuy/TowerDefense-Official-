@@ -18,7 +18,7 @@ public class Config {
     public final static double normalDamage = 5.0;
     public final static double normalSpeed = 2.0;
     //Tanker Enemy
-    public final static double TankerHealth = 75.0;
+    public final static double TankerHealth = 100.0;
     public final static double TankerDamage = 5.0;
     public final static double TankerSpeed = 3.0;
     //Smaller Enemy
@@ -75,7 +75,7 @@ public class Config {
     public final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-    public final static String enemylvl1 = "222";
+    public final static String enemylvl1 = "1111111111111111111111";
 
 
     Config(){
