@@ -1,11 +1,13 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
@@ -318,6 +320,7 @@ public class GameStage extends MyStage{
 
      */
 
+
     private void renderEntities(GraphicsContext gc){
 
         if(!enemyList.isEmpty()) {
@@ -331,19 +334,6 @@ public class GameStage extends MyStage{
         }
 
         /*
-        gameEntities.sort(new Comparator<GameEntity>() {
-            @Override
-            public int compare(GameEntity gameEntity, GameEntity t1) {
-                if(gameEntity.getY() > t1.getY() && gameEntity.getX() > t1.getX()) return 1;
-                else if(gameEntity.getY() > t1.getY() && gameEntity.getX() <= t1.getX()) return 0;
-                else if(gameEntity.getY() <= t1.getY() && gameEntity.getX() > t1.getX()) return 1;
-                else return 0;
-            }
-        });
-
-         */
-
-        /*
         for(int i=0; i<gameEntities.size(); i++){
             for(int j=i+1; j<gameEntities.size(); j++){
                 if(gameEntities.get(i).getY() > gameEntities.get(j).getY()){
@@ -355,6 +345,7 @@ public class GameStage extends MyStage{
         }
 
          */
+
 
         /*
         if(!enemyList.isEmpty()) {
@@ -433,15 +424,13 @@ public class GameStage extends MyStage{
         }
     }
 
-
-
     private void renderMoney(GraphicsContext gc){
-        int x = 850;
+        int x = 20;
         String m = toString().valueOf(money);
-        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 600, 50, 50);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_money.png"), x, 500, 50, 50);
         for (int i = 0; i < m.length(); i++) {
             x += 25;
-            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 600, 50, 50);
+            gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Digit/towerDefense_digit" + m.charAt(i) + ".png"), x, 500, 50, 50);
         }
     }
 
@@ -567,7 +556,12 @@ public class GameStage extends MyStage{
 
     }
 
-    public void towerAction(Group group, Scene scene){
+    public void towerAction(Group group, Scene scene, GraphicsContext gc){
+        ImageView imageView = new ImageView();
+        imageView.setX(600);
+        imageView.setY(600);
+        group.getChildren().add(imageView);
+
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             double X = mouseEvent.getX();
             double Y = mouseEvent.getY();
@@ -575,7 +569,19 @@ public class GameStage extends MyStage{
             for (GameEntity tmp : gameEntities) {
                 if (tmp instanceof Tower) {
                     if (((Tower) tmp).inArea(X, Y)) {
-
+                        if(tmp instanceof BallistaTower){
+                            imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/001.png"));
+                        }
+                        else if(tmp instanceof BlasterTower){
+                            imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/002.png"));
+                        }
+                        else if(tmp instanceof CannonTower){
+                            imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/003.png"));
+                        }
+                        else {
+                            imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Side/004.png"));
+                        }
+                        /*
                         ContextMenu cm = new ContextMenu();
                         MenuItem mItem1 = new MenuItem("Upgrade");
                         MenuItem mItem2 = new MenuItem("Sell");
@@ -585,6 +591,8 @@ public class GameStage extends MyStage{
 
                         circle.setVisible(true);
 
+                        //circle.managedProperty().bind(circle.visibleProperty());
+
                         mItem1.setOnAction(actionEvent -> {
                             System.out.println("Upgraded!");
                             ((Tower) tmp).upgrade(this);
@@ -593,11 +601,17 @@ public class GameStage extends MyStage{
 
                         mItem2.setOnAction(actionEvent -> {
                             System.out.println("Sold!");
+                            money += ((Tower) tmp).getCost()/2;
                             gameEntities.remove(tmp);
+                            circle.setVisible(false);
+                            //circle.managedProperty().bind(circle.visibleProperty());
                             //circle.setMouseTransparent(true);
+                            //group.getChildren().remove(circle);
+                            //Scene scene2 = new Scene(group);
                         });
 
                         cm.getItems().addAll(mItem1, mItem2);
+                         */
 
                         /*
                         Rectangle rec = new Rectangle();
@@ -626,12 +640,15 @@ public class GameStage extends MyStage{
 
                          */
 
+                        /*
                         circle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
                             @Override
                             public void handle(ContextMenuEvent contextMenuEvent) {
                                 cm.show(circle, circle.getCenterX(), circle.getCenterY());
                             }
                         });
+
+                         */
 
                         //TextArea textArea = new TextArea();
                         //textArea.setLayoutX(100);
@@ -660,23 +677,32 @@ public class GameStage extends MyStage{
 
                          */
 
-                        /*
+
                         Button bt1 = new Button("Upgrade");
                         Button bt2 = new Button("Sell   ");
 
-                        bt1.setLayoutX(X+10);
-                        bt1.setLayoutY(Y-30);
-                        bt2.setLayoutX(X+10);
-                        bt2.setLayoutY(Y);
+                        bt1.setLayoutX(775);
+                        bt1.setLayoutY(580);
+                        bt2.setLayoutX(bt1.getLayoutX()+120);
+                        bt2.setLayoutY(bt1.getLayoutY());
+                        bt1.setPrefHeight(30);
+                        bt1.setPrefWidth(100);
+                        bt2.setPrefHeight(30);
+                        bt2.setPrefWidth(100);
+
+                        bt1.setStyle("-fx-background-color : #29B6F6;\n"
+                                + "    -fx-text-fill        : #E1F5FE;\n"
+                                + "    -fx-font-weight      : 900;");
+                        bt2.setStyle("-fx-background-color : #29B6F6;\n"
+                                + "    -fx-text-fill        : #E1F5FE;\n"
+                                + "    -fx-font-weight      : 900;");
 
 
-                        /*
                         bt1.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent actionEvent) {
                                 System.out.println("Button 1 clicked");
-                                //group.getChildren().remove(bt1);
-                                //group.getChildren().remove(bt2);
+                                ((Tower) tmp).upgrade(GameStage.this);
                             }
                         });
 
@@ -684,26 +710,13 @@ public class GameStage extends MyStage{
                             @Override
                             public void handle(ActionEvent actionEvent) {
                                 System.out.println("Button 2 clicked");
-                                //group.getChildren().remove(bt1);
-                                //group.getChildren().remove(bt2);
+                                money += ((Tower) tmp).getCost()/2;
+                                gameEntities.remove(tmp);
+                                imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/towerDefense_trueFilter.png"));
                             }
                         });
 
-
-                        bt1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent mouseEvent) {
-                                System.out.println("Button 1 clicked");
-                                Button source = (Button) mouseEvent.getSource();
-                                group.getChildren().remove(source);
-                                //group.getChildren().remove(bt1);
-                                //group.getChildren().remove(bt2);
-                            }
-                        });
-
-                         */
-
-                        group.getChildren().addAll(circle);
+                        group.getChildren().addAll(bt1, bt2);
 
                     }
                 }
@@ -712,8 +725,9 @@ public class GameStage extends MyStage{
     }
 
     //public void event(Scene scene){
-    public void event(Group group, Scene scene){
-        towerAction( group, scene);
+    public void event(Group group, Scene scene, GraphicsContext gc){
+
+        towerAction(group, scene, gc);
 
         if(!isAuto) {
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {

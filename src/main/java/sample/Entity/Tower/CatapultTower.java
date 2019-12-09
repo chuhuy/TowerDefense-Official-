@@ -13,7 +13,8 @@ import java.util.List;
 
 public class CatapultTower extends Tower {
     final String baseLvl1 = "towerRound_bottomB_E";
-    final String baseLvl2 = "towerSquare_sampleE_E";
+    final String baseLvl2 = "towerRound_sampleC_E";
+    final String baseLvl3 = "towerSquare_sampleE_E";
     final String catapult_E = "035";
     double cooldown = Config.catapultFireRate;
 
@@ -27,6 +28,7 @@ public class CatapultTower extends Tower {
         setFireRate(Config.catapultFireRate);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setLevel(1);
         this.enemies = ene;
         this.bullets = bu;
 
@@ -39,8 +41,20 @@ public class CatapultTower extends Tower {
     }
 
     @Override
+    public int getCost() {
+        return Config.catapultCost;
+    }
+
+    @Override
     public void upgrade(GameStage stage) {
-        if(level < MAX_LEVEL) level++;
+        if(level == 1 && stage.getMoney() >= Config.catapultUpgradeCost1) {
+            this.setLevel(2);
+            stage.setMoney(stage.getMoney() - Config.catapultUpgradeCost1);
+        }
+        else if(level == 2 && stage.getMoney() >= Config.catapultUpgradeCost2) {
+            this.setLevel(3);
+            stage.setMoney(stage.getMoney() - Config.catapultUpgradeCost2);
+        }
     }
 
     @Override
@@ -50,18 +64,41 @@ public class CatapultTower extends Tower {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 +".png"), x, y, width, height
-        );
-        gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + catapult_E +".png"), x, y - 14, width, height
-        );
+        switch (level) {
+            case 1: {
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + catapult_E + ".png"), x, y - 15, width, height
+                );
+                break;
+            }
+            case 2:{
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl2 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + catapult_E + ".png"), x, y - 22, width, height
+                );
+                break;
+            }
+            case 3:{
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl3 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + catapult_E + ".png"), x, y - 22, width, height
+                );
+                break;
+            }
+        }
     }
 
     @Override
     public void update() {
         this.updateTargetQueue(enemies);
-        System.out.println(this.enemiesQueue.size());
+        //System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
             if(cooldown == 0) {
                 fire(enemiesQueue.peek());

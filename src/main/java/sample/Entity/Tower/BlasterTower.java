@@ -13,7 +13,8 @@ import java.util.List;
 
 public class BlasterTower extends Tower {
     private final String baseLvl1 = "towerRound_bottomB_E";
-    final String baseLvl2 = "towerSquare_sampleE_E";
+    final String baseLvl2 = "towerRound_sampleC_E";
+    final String baseLvl3 = "towerSquare_sampleE_E";
     final String blaster_E = "024";
     final String blaster_N = "025";
     final String blaster_S = "027";
@@ -30,6 +31,7 @@ public class BlasterTower extends Tower {
         setFireRate(Config.blasterFireRate);
         setHeight(Config.pixels * 5);
         setWidth(Config.pixels * 5);
+        setLevel(1);
         this.enemies = ene;
         this.bullets = bu;
 
@@ -42,10 +44,23 @@ public class BlasterTower extends Tower {
     }
 
     @Override
-    public void upgrade(GameStage stage) {
-        if(level < MAX_LEVEL) level++;
+    public int getCost() {
+        return Config.blasterCost;
     }
 
+    @Override
+    public void upgrade(GameStage stage) {
+        if(level == 1 && stage.getMoney() >= Config.blasterUpgradeCost1) {
+            this.setLevel(2);
+            stage.setMoney(stage.getMoney() - Config.blasterUpgradeCost1);
+        }
+        else if(level == 2 && stage.getMoney() >= Config.blasterUpgradeCost2) {
+            this.setLevel(3);
+            stage.setMoney(stage.getMoney() - Config.blasterUpgradeCost2);
+        }
+    }
+
+    /*
     public String directionSprite(Enemy enemy)
     {
         String sprite;
@@ -55,15 +70,39 @@ public class BlasterTower extends Tower {
                 else sprite = "026";
          return sprite;
     }
+     */
 
     @Override
-        public void render(GraphicsContext gc) {
-        gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 +".png"), x, y, width, height
-        );
-        gc.drawImage(
-                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E +".png"), x, y - 13, width, height
-        );
+    public void render(GraphicsContext gc) {
+        switch (level) {
+            case 1: {
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E + ".png"), x, y - 15, width, height
+                );
+                break;
+            }
+            case 2:{
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl2 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E + ".png"), x, y - 22, width, height
+                );
+                break;
+            }
+            case 3:{
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl3 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + blaster_E + ".png"), x, y - 22, width, height
+                );
+                break;
+            }
+        }
     }
 
     @Override
@@ -74,7 +113,7 @@ public class BlasterTower extends Tower {
     @Override
     public void update() {
         this.updateTargetQueue(enemies);
-        System.out.println(this.enemiesQueue.size());
+        //System.out.println(this.enemiesQueue.size());
         if(!this.enemiesQueue.isEmpty()){
             if(cooldown == 0) {
                 fire(enemiesQueue.peek());

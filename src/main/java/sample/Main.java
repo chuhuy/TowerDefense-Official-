@@ -39,7 +39,7 @@ public class Main extends Application {
                 stageStack.peek().render(gc, root);
                 stageStack.peek().update();
                 //stageStack.peek().event(scene);
-                stageStack.peek().event(root, scene);
+                stageStack.peek().event(root, scene, gc);
             }
         }.start();
 

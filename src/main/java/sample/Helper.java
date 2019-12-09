@@ -17,7 +17,6 @@ public class Helper {
             }
             i++;
         }
-
         return result;
     }
     String loadJson()throws IOException{

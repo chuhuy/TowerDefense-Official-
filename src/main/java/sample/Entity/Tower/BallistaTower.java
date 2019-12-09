@@ -13,12 +13,15 @@ import java.util.List;
 
 public class BallistaTower extends Tower{
     final String baseLvl1 = "towerRound_bottomB_E";
-    final String baseLvl2 = "towerSquare_sampleE_E";
+    final String baseLvl2 = "towerRound_sampleC_E";
+    final String baseLvl3 = "towerSquare_sampleE_E";
     final String ballista_E = "023";
     double cooldown = Config.ballistaFireRate;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
+
+
 
     public BallistaTower(double x, double y, List<Enemy> ene, List<Bullet> bu)
     {
@@ -37,6 +40,11 @@ public class BallistaTower extends Tower{
         double Y = helper.ijToY(i, j);
         setX(X);
         setY(Y);
+    }
+
+    @Override
+    public int getCost() {
+        return Config.ballistaCost;
     }
 
     @Override
@@ -72,7 +80,16 @@ public class BallistaTower extends Tower{
                         new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl2 + ".png"), x, y, width, height
                 );
                 gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 20, width, height
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height
+                );
+                break;
+            }
+            case 3:{
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl3 + ".png"), x, y, width, height
+                );
+                gc.drawImage(
+                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height
                 );
                 break;
             }

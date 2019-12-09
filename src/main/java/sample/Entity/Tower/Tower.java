@@ -15,6 +15,7 @@ import java.util.Queue;
 abstract public class Tower extends GameEntity{
     protected double range;
     protected double fireRate;
+    protected int cost;
     protected Queue<Enemy> enemiesQueue = new LinkedList<Enemy>();
     protected DIRECTION direction = DIRECTION.NORTH;
     protected int level;
@@ -35,6 +36,12 @@ abstract public class Tower extends GameEntity{
     public void setFireRate(double fireRate) {
         this.fireRate = fireRate;
     }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public abstract int getCost();
 
     public void updateTargetQueue(List<Enemy> enemies)
     {

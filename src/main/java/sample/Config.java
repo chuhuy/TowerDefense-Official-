@@ -42,19 +42,24 @@ public class Config {
     public final static int ballistaCost = 50;
     public final static int ballistaUpgradeCost1 = 50;
     public final static int ballistaUpgradeCost2 = 100;
-
     //Blaster
     public final static double blasterRange = 3.0;
     public final static double blasterFireRate = 2.0;
     public final static int blasterCost = 100;
+    public final static int blasterUpgradeCost1 = 50;
+    public final static int blasterUpgradeCost2 = 100;
     //Cannon
     public final static double cannonRange = 2.0;
     public final static double cannonFireRate = 2.0;
     public final static int cannonCost = 65;
+    public final static int cannonUpgradeCost1 = 50;
+    public final static int cannonUpgradeCost2 = 100;
     //Catapult
     public final static double catapultRange = 1.0;
     public final static double catapultFireRate = 1.0;
     public final static int catapultCost = 75;
+    public final static int catapultUpgradeCost1 = 50;
+    public final static int catapultUpgradeCost2 = 100;
 
 //Bullet Config
     //Ballista Bullet
