@@ -8,5 +8,5 @@ abstract public class MyStage {
 
     abstract public void render(GraphicsContext gc, Group root);
     abstract public void update();
-    abstract public void event(Scene scene);
+    abstract public void event(Group group, Scene scene);
 }

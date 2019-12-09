@@ -77,7 +77,8 @@ public class MenuStage extends MyStage{
     }
 
     @Override
-    public void event(Scene scene) {
+    //public void event(Scene scene) {
+    public void event(Group group, Scene scene) {
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
 
             double X = mouseEvent.getX();

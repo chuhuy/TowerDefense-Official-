@@ -37,9 +37,9 @@ abstract public class GameEntity {
         return width;
     }
 
-    public boolean comparator(GameEntity gameEntity){
-        return this.getY() > gameEntity.getY();
-    }
+    //public boolean comparator(GameEntity gameEntity){
+        //return this.getY() > gameEntity.getY();
+    //}
 
     abstract public void render(GraphicsContext gc);
     abstract public void update();

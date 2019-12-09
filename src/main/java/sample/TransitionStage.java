@@ -50,7 +50,8 @@ public class TransitionStage extends MyStage{
     }
 
     @Override
-    public void event(Scene scene) {
+    //public void event(Scene scene) {
+    public void event(Group group, Scene scene) {
 
     }
 }

@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import sample.DIRECTION;
 import sample.Entity.Enemy.Enemy;
 import sample.GameEntity;
+import sample.GameStage;
 import sample.Helper;
 
 import java.util.LinkedList;
@@ -16,8 +17,8 @@ abstract public class Tower extends GameEntity{
     protected double fireRate;
     protected Queue<Enemy> enemiesQueue = new LinkedList<Enemy>();
     protected DIRECTION direction = DIRECTION.NORTH;
-    //protected int level;
-    //final protected int MAX_LEVEL = 3;
+    protected int level;
+    final protected int MAX_LEVEL = 3;
 
     public double getRange() {
         return range;
@@ -46,11 +47,18 @@ abstract public class Tower extends GameEntity{
         }
     }
 
+    public boolean inArea(double x, double y){
+        if(x >= (this.getX() + 65) && x <= (this.getX() + this.width - 50) && y >= (this.getY() + 75) && y <= (this.getY() + this.height - 70)) return true;
+        return false;
+    }
+
+    public abstract void upgrade(GameStage stage);
+
     public abstract void fire(Enemy target);
 
     //public int getLevel() { return level; }
 
-    //public void setLevel(int level) { this.level = level; }
+    public void setLevel(int level) { this.level = level; }
 
     abstract public void render(GraphicsContext gc);
     abstract public void update();

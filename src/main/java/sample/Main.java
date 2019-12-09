@@ -38,7 +38,8 @@ public class Main extends Application {
             public void handle(long now) {
                 stageStack.peek().render(gc, root);
                 stageStack.peek().update();
-                stageStack.peek().event(scene);
+                //stageStack.peek().event(scene);
+                stageStack.peek().event(root, scene);
             }
         }.start();
 

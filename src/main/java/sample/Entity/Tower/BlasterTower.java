@@ -6,6 +6,7 @@ import sample.Config;
 import sample.Entity.Bullet.BlasterBullet;
 import sample.Entity.Bullet.Bullet;
 import sample.Entity.Enemy.Enemy;
+import sample.GameStage;
 import sample.Helper;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public class BlasterTower extends Tower {
         double Y = helper.ijToY(i, j);
         setX(X);
         setY(Y);
+    }
+
+    @Override
+    public void upgrade(GameStage stage) {
+        if(level < MAX_LEVEL) level++;
     }
 
     public String directionSprite(Enemy enemy)

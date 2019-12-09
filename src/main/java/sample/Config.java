@@ -1,6 +1,11 @@
 package sample;
 
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
+
 public class Config {
     public final static String GAME_NAME = "Tower Defense";
     public final static double pixels = 32.0;
@@ -35,6 +40,9 @@ public class Config {
     public final static double ballistaRange = 4.0;
     public final static double ballistaFireRate = 5.0;
     public final static int ballistaCost = 50;
+    public final static int ballistaUpgradeCost1 = 50;
+    public final static int ballistaUpgradeCost2 = 100;
+
     //Blaster
     public final static double blasterRange = 3.0;
     public final static double blasterFireRate = 2.0;
@@ -75,14 +83,15 @@ public class Config {
     final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-<<<<<<< HEAD
-    public final static String enemylvl1 = "1111111111111111111111";
-=======
-    final static String enemylvl1 = "222";
->>>>>>> 50cb0b9a7b85eb6cf2e06990f54bde02f8ab5036
+    public final static String enemylvl1 = "";
 
 //AutoPlay
     final static int towerRefreshRate = 35;
+
+//Audio
+    public static String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+    public static Media media = new Media(new File(path).toURI().toString());
+    //MediaPlayer mediaPlayer = new MediaPlayer(media);
 
     Config(){
 
