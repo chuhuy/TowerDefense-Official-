@@ -2,6 +2,7 @@ package sample.Entity.Tower;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import sample.Config;
 import sample.Entity.Bullet.BlasterBullet;
 import sample.Entity.Bullet.Bullet;
@@ -59,6 +60,13 @@ public class BlasterTower extends Tower {
         double Y = helper.ijToY(i, j);
         setX(X);
         setY(Y);
+    }
+
+    @Override
+    public int getUpgradeCost() {
+        if(this.level == 1) return Config.blasterUpgradeCost1;
+        else if (this.level == 2) return Config.blasterUpgradeCost2;
+        else return 0;
     }
 
     @Override
@@ -126,6 +134,8 @@ public class BlasterTower extends Tower {
     @Override
     public void fire(Enemy target) {
         bullets.add(new BlasterBullet(this.getX() , this.getY() , target));
+        MediaPlayer med = new MediaPlayer(Config.blaster);
+        med.setAutoPlay(true);
     }
 
     @Override

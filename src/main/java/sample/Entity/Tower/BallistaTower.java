@@ -2,6 +2,7 @@ package sample.Entity.Tower;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import sample.Config;
 import sample.Entity.Bullet.BallistaBullet;
 import sample.Entity.Bullet.Bullet;
@@ -21,7 +22,12 @@ public class BallistaTower extends Tower{
     private List<Enemy> enemies;
     private List<Bullet> bullets;
 
-
+    @Override
+    public int getUpgradeCost() {
+        if(this.level == 1) return Config.ballistaUpgradeCost1;
+        else if (this.level == 2) return Config.ballistaUpgradeCost2;
+        else return 0;
+    }
 
     public BallistaTower(double x, double y, List<Enemy> ene, List<Bullet> bu)
     {
@@ -68,6 +74,7 @@ public class BallistaTower extends Tower{
     @Override
     public void upgrade(GameStage stage) {
         if(level == 1 && stage.getMoney() >= Config.ballistaUpgradeCost1) {
+        //if(level == 1 && stage.getMoney() >= this.getUpgradeCost1()) {
             this.setLevel(2);
             stage.setMoney(stage.getMoney() - Config.ballistaUpgradeCost1);
         }
@@ -79,36 +86,28 @@ public class BallistaTower extends Tower{
     }
 
     @Override
-    public void fire(Enemy target) { bullets.add(new BallistaBullet(this.getX() , this.getY() , target)); }
+    public void fire(Enemy target) {
+        bullets.add(new BallistaBullet(this.getX() , this.getY() , target));
+        MediaPlayer med = new MediaPlayer(Config.ballista);
+        med.setAutoPlay(true);
+    }
 
     @Override
     public void render(GraphicsContext gc) {
         switch (level) {
             case 1: {
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 + ".png"), x, y, width, height
-                );
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 15, width, height
-                );
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl1 + ".png"), x, y, width, height);
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 15, width, height);
                 break;
             }
             case 2:{
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl2 + ".png"), x, y, width, height
-                );
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height
-                );
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl2 + ".png"), x, y, width, height);
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height);
                 break;
             }
             case 3:{
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl3 + ".png"), x, y, width, height
-                );
-                gc.drawImage(
-                        new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height
-                );
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + baseLvl3 + ".png"), x, y, width, height);
+                gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/" + ballista_E + ".png"), x, y - 22, width, height);
                 break;
             }
         }
