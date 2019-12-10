@@ -21,6 +21,9 @@ abstract public class Tower extends GameEntity{
     protected int level;
     final protected int MAX_LEVEL = 3;
 
+    protected Tower() {
+    }
+
     public double getRange() {
         return range;
     }
@@ -41,7 +44,13 @@ abstract public class Tower extends GameEntity{
         this.cost = cost;
     }
 
+    public int getLevel() {
+        return level;
+}
+
     public abstract int getCost();
+
+    public abstract int getUpgradeCost();
 
     public void updateTargetQueue(List<Enemy> enemies)
     {
@@ -60,6 +69,11 @@ abstract public class Tower extends GameEntity{
     }
 
     public abstract void upgrade(GameStage stage);
+
+    public void downgrade(GameStage stage){
+        this.setLevel(this.level - 1);
+        stage.setMoney(stage.getMoney() + 10);
+    }
 
     public abstract void fire(Enemy target);
 

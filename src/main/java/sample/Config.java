@@ -88,14 +88,37 @@ public class Config {
     final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-    public final static String enemylvl1 = "";
+    public final static String enemylvl1 = "111";
 
 //AutoPlay
     final static int towerRefreshRate = 35;
 
 //Audio
-    public static String path = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
-    public static Media media = new Media(new File(path).toURI().toString());
+    public static String themePath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/2_t5shot.mp3";
+    public static Media theme = new Media(new File(themePath).toURI().toString());
+
+    public static String balPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/2_t5shot.mp3";
+    public static Media ballista = new Media(new File(balPath).toURI().toString());
+
+    public static String blasPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/4_t1shot.mp3";
+    public static Media blaster = new Media(new File(blasPath).toURI().toString());
+
+    public static String canPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/1_t2shot.mp3";
+    public static Media cannon = new Media(new File(canPath).toURI().toString());
+
+    public static String cataPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/1_t2shot.mp3";
+    public static Media catapult = new Media(new File(cataPath).toURI().toString());
+
+    public static String towerPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/3_turretbuild.mp3";
+    public static Media towerBuild = new Media(new File(towerPath).toURI().toString());
+    //public static MediaPlayer mediaPlayer1 = new MediaPlayer(Config.towerBuild);
+
+    public static String clickPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/7_click.mp3";
+    public static Media click = new Media(new File(clickPath).toURI().toString());
+
+    public static String coinPath = "./src/main/java/TowerDefense/AssetsKit_1/sounds/coin.mp3";
+    public static Media coin = new Media(new File(coinPath).toURI().toString());
+
     //MediaPlayer mediaPlayer = new MediaPlayer(media);
 
     Config(){

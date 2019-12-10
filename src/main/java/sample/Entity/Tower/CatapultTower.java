@@ -2,6 +2,7 @@ package sample.Entity.Tower;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import sample.Config;
 import sample.Entity.Bullet.Bullet;
 import sample.Entity.Bullet.CatapultBullet;
@@ -41,6 +42,13 @@ public class CatapultTower extends Tower {
     }
 
     @Override
+    public int getUpgradeCost() {
+        if(this.level == 1) return Config.catapultUpgradeCost1;
+        else if (this.level == 2) return Config.catapultUpgradeCost2;
+        else return 0;
+    }
+
+    @Override
     public int getCost() {
         return Config.catapultCost;
     }
@@ -60,6 +68,8 @@ public class CatapultTower extends Tower {
     @Override
     public void fire(Enemy target) {
         bullets.add(new CatapultBullet(this.getX() , this.getY() , target));
+        MediaPlayer med = new MediaPlayer(Config.catapult);
+        med.setAutoPlay(true);
     }
 
     @Override

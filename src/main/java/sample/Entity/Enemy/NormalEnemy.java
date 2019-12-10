@@ -34,7 +34,7 @@ public class NormalEnemy extends Enemy {
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(
-            new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/036.png"), x, y, width, height
+                new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/036.png"), x, y, width, height
         );
     }
 
