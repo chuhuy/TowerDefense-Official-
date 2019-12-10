@@ -87,12 +87,12 @@ public class MenuStage extends MyStage{
             if(X >= 610 && X <= 770 && Y >= 476 && Y < (476 + 47)){
                 MyStage game = null;
                 try {
-                    game = new GameStage();
+                    game = new GameStage(stageStack);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    game = new GameStage();
+                    game = new GameStage(stageStack);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -100,7 +100,7 @@ public class MenuStage extends MyStage{
                 stageStack.push(game);
             }
             else if(X >= 500 && X <= 698 && Y >= 377 && Y <= (377+56)){
-                GameStage game = new GameStage(1);
+                GameStage game = new GameStage(1, stageStack);
                 stageStack.pop();
                 stageStack.push(game);
             }

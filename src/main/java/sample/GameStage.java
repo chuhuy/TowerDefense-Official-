@@ -29,12 +29,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GameStage extends MyStage{
-    private int level;
+
+    private Stack<MyStage> stageStack = new Stack<>();
+    private int level = 1;
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
     public List<Enemy> enemies = new ArrayList<>();
     //public List<Tower> towers = new ArrayList<>();
-    public Queue<Enemy> enemyList = new LinkedList<>();
+    private Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
     private int money = 1000;
     private int playerHealth = 10;
@@ -47,7 +49,7 @@ public class GameStage extends MyStage{
     private GameEntity sp = new Spawner(3, 19);
     private GameEntity target = new Target(18,0);
 
-    public int getLevel() {
+    private int getLevel() {
         return level;
     }
     public void setLevel(int level) {
@@ -62,7 +64,7 @@ public class GameStage extends MyStage{
         this.money = money;
     }
 
-    public void getMap() {
+    private void getMap() {
         try{
             Helper helper = new Helper();
             map = helper.getMapFromText(this.getLevel());
@@ -86,8 +88,9 @@ public class GameStage extends MyStage{
 
 
     //Init game from save game file
-    GameStage() throws IOException {
+    GameStage(Stack<MyStage> stageStack) throws IOException {
         Helper helper = new Helper();
+        this.stageStack = stageStack;
         String jsonStr = helper.loadJson();
         JSONObject json = new JSONObject(jsonStr);
 
@@ -154,25 +157,26 @@ public class GameStage extends MyStage{
         for(int i = 0; i < tower.length(); i++){
             double x = tower.getJSONObject(i).getDouble("x");
             double y = tower.getJSONObject(i).getDouble("y");
+            int level = tower.getJSONObject(i).getInt("level");
 
             switch (tower.getJSONObject(i).getInt("type")){
                 case 1:{
-                    gameEntities.add(new BallistaTower(x, y, enemies, bullets));
+                    gameEntities.add(new BallistaTower(x, y, enemies, bullets, level));
                     //towers.add(new BallistaTower(x, y, enemies, bullets));
                 }
                 break;
                 case 2:{
-                    gameEntities.add(new BlasterTower(x, y, enemies, bullets));
+                    gameEntities.add(new BlasterTower(x, y, enemies, bullets, level));
                     //towers.add(new BlasterTower(x, y, enemies, bullets));
                 }
                 break;
                 case 3:{
-                    gameEntities.add(new CannonTower(x, y, enemies, bullets));
+                    gameEntities.add(new CannonTower(x, y, enemies, bullets, level));
                     //towers.add(new CannonTower(x, y, enemies, bullets));
                 }
                 break;
                 case 4:{
-                    gameEntities.add(new CatapultTower(x, y, enemies, bullets));
+                    gameEntities.add(new CatapultTower(x, y, enemies, bullets, level));
                     //towers.add(new CatapultTower(x, y, enemies, bullets));
                 }
                 break;
@@ -184,7 +188,8 @@ public class GameStage extends MyStage{
     }
 
     //Init game stage from the beginning
-    GameStage(int level){
+    GameStage(int level, Stack<MyStage> stageStack){
+        this.stageStack = stageStack;
         this.level = level;
         this.getMap();
         this.getEnemy();
@@ -194,7 +199,7 @@ public class GameStage extends MyStage{
 
     private void renderMap(GraphicsContext gc){
         gc.drawImage(new Image("file:src/main/java/images/background.png"), 0, 0, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-        gc.drawImage(new Image("file:src/main/java/maps/map1.png"),
+        gc.drawImage(new Image("file:src/main/java/maps/map" + this.level + ".png"),
                 0, 0, 1200 , 545);
     }
 
@@ -204,7 +209,7 @@ public class GameStage extends MyStage{
         auto.setMinSize(40, 35);
         auto.setLayoutX(5);
         auto.setLayoutY(5);
-        auto.setStyle("-fx-background-color: transparent;");
+        //auto.setStyle("-fx-background-color: transparent;");
         root.getChildren().add(auto);
 
         auto.setOnMouseClicked(some ->{
@@ -512,6 +517,15 @@ public class GameStage extends MyStage{
     }
 
     public void update(){
+
+        if(enemyList.isEmpty() && enemies.isEmpty()){
+            FinalStage fStage = new FinalStage(true, stageStack, level);
+            stageStack.push(fStage);
+        }
+        else if(playerHealth <= 0){
+            FinalStage fStage = new FinalStage(false, stageStack, level);
+            stageStack.push(fStage);
+        }
         //Enemy Update
         for(GameEntity gameEntity : gameEntities) {
             gameEntity.update();
@@ -548,9 +562,6 @@ public class GameStage extends MyStage{
         }
         bullets.removeIf(Bullet::isDisposed);
 
-        if(enemyList.isEmpty() && enemies.isEmpty() || playerHealth <= 0){
-            //System.exit(0);
-        }
 
     }
 

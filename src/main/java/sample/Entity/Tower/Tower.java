@@ -97,6 +97,6 @@ abstract public class Tower extends GameEntity{
         else if(this instanceof CatapultTower){
             type = 4;
         }
-        return "{\"type\":" + type + ",\"x\":" + x + ",\"y\":" + y + "}";
+        return "{\"type\":" + type + ",\"x\":" + x + ",\"y\":" + y + ",\"level\":" + this.level + "}";
     }
 }
