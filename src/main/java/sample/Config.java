@@ -88,7 +88,7 @@ public class Config {
     final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-    public final static String enemylvl1 = "";
+    public final static String enemylvl1 = "1111";
 
 //AutoPlay
     final static int towerRefreshRate = 35;

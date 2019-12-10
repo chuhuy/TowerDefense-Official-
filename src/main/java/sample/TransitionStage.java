@@ -37,7 +37,7 @@ public class TransitionStage extends MyStage{
         sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
-                GameStage game = new GameStage(1);
+                GameStage game = new GameStage(1, stageStack);
                 stageStack.push(game);
             }
         });

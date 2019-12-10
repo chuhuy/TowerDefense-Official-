@@ -24,6 +24,24 @@ public class BlasterTower extends Tower {
     private List<Enemy> enemies;
     private List<Bullet> bullets;
 
+    public BlasterTower(double x, double y, List<Enemy> ene, List<Bullet> bu, int level)
+    {
+        Helper helper = new Helper();
+        setRange(Config.blasterRange);
+        setFireRate(Config.blasterFireRate);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setLevel(level);
+        this.enemies = ene;
+        this.bullets = bu;
+
+        int i = helper.xyToI(x, y);
+        int j = helper.xyToJ(x, y);
+        double X = helper.ijToX(i, j);
+        double Y = helper.ijToY(i, j);
+        setX(X);
+        setY(Y);
+    }
     public BlasterTower(double x, double y, List<Enemy> ene, List<Bullet> bu)
     {
         Helper helper = new Helper();

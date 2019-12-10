@@ -41,6 +41,24 @@ public class BallistaTower extends Tower{
         setX(X);
         setY(Y);
     }
+    public BallistaTower(double x, double y, List<Enemy> ene, List<Bullet> bu, int level)
+    {
+        Helper helper = new Helper();
+        setRange(Config.ballistaRange);
+        setFireRate(Config.ballistaFireRate);
+        setHeight(Config.pixels * 5);
+        setWidth(Config.pixels * 5);
+        setLevel(level);
+        this.enemies = ene;
+        this.bullets = bu;
+
+        int i = helper.xyToI(x, y);
+        int j = helper.xyToJ(x, y);
+        double X = helper.ijToX(i, j);
+        double Y = helper.ijToY(i, j);
+        setX(X);
+        setY(Y);
+    }
 
     @Override
     public int getCost() {
