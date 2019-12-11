@@ -85,7 +85,7 @@ public class CatapultTower extends Tower {
 
     @Override
     public void fire(Enemy target) {
-        bullets.add(new CatapultBullet(this.getX() , this.getY() , target));
+        bullets.add(new CatapultBullet(this.getX() -5, this.getY() -10, target));
         MediaPlayer med = new MediaPlayer(Config.catapult);
         med.setAutoPlay(true);
     }

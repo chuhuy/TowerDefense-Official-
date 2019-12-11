@@ -43,9 +43,11 @@ public class FinalStage extends MyStage {
             double y = mouseEvent.getY();
 
             if(x >= 435 && y >= 585 && x <= 565 && y <= 631){
-                level += 1;
-                GameStage gameStage = new GameStage(level, stageStack);
-                stageStack.push(gameStage);
+                //level += 1;
+                //GameStage gameStage = new GameStage(level, stageStack);
+                //stageStack.push(gameStage);
+                MenuStage menu = new MenuStage(stageStack);
+                stageStack.push(menu);
             }
             else if(x >= 689 && y >= 588 && x <= 773 && y <= 632){
                 System.exit(0);

@@ -133,7 +133,7 @@ public class BlasterTower extends Tower {
 
     @Override
     public void fire(Enemy target) {
-        bullets.add(new BlasterBullet(this.getX() , this.getY() , target));
+        bullets.add(new BlasterBullet(this.getX() - 5, this.getY() - 10, target));
         MediaPlayer med = new MediaPlayer(Config.blaster);
         med.setAutoPlay(true);
     }

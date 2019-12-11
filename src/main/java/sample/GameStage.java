@@ -1,19 +1,19 @@
 package sample;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
+//import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
+//import javafx.scene.image.ImageView;
+//import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
+//import javafx.scene.paint.ImagePattern;
+//import javafx.scene.shape.Circle;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sample.Entity.Bullet.Bullet;
@@ -25,21 +25,19 @@ import sample.Entity.Tower.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GameStage extends MyStage{
 
     private Stack<MyStage> stageStack = new Stack<>();
-    private int level = 1;
+    private int level;
     private int eventType = 0;
     private List<GameEntity> gameEntities = new ArrayList<>();
     public List<Enemy> enemies = new ArrayList<>();
-    //public List<Tower> towers = new ArrayList<>();
     private Queue<Enemy> enemyList = new LinkedList<>();
     private List<Bullet> bullets = new ArrayList<>();
     private int money = 1000;
-    private int playerHealth = 10;
+    private int playerHealth = 1000;
     private double waveInterval = Config.normalInterval;
     private boolean isAuto = false;
     private int buildRate = Config.towerRefreshRate;
@@ -52,18 +50,13 @@ public class GameStage extends MyStage{
     private int getLevel() {
         return level;
     }
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
+    //public void setLevel(int level) { this.level = level; }
     public int getMoney() {
         return money;
     }
-
     public void setMoney(int money) {
         this.money = money;
     }
-
     private void getMap() {
         try{
             Helper helper = new Helper();
@@ -75,8 +68,6 @@ public class GameStage extends MyStage{
 
     public void getEnemy() {
         String m = Config.enemylvl1;
-        //System.out.println(m);
-        //System.out.println(m.length());
         for(int i=0; i < m.length(); i++) {
             if(m.charAt(i) == '1') enemyList.add(new NormalEnemy(sp.getX(), sp.getY(), map));
             else if(m.charAt(i) == '2') enemyList.add(new SmallerEnemy(sp.getX(), sp.getY(), map));
@@ -84,8 +75,6 @@ public class GameStage extends MyStage{
                     else if(m.charAt(i) == '4') enemyList.add(new BossEnemy(sp.getX(), sp.getY(), map));
         }
     }
-
-
 
     //Init game from save game file
     GameStage(Stack<MyStage> stageStack) throws IOException {
@@ -162,22 +151,18 @@ public class GameStage extends MyStage{
             switch (tower.getJSONObject(i).getInt("type")){
                 case 1:{
                     gameEntities.add(new BallistaTower(x, y, enemies, bullets, level));
-                    //towers.add(new BallistaTower(x, y, enemies, bullets));
                 }
                 break;
                 case 2:{
                     gameEntities.add(new BlasterTower(x, y, enemies, bullets, level));
-                    //towers.add(new BlasterTower(x, y, enemies, bullets));
                 }
                 break;
                 case 3:{
                     gameEntities.add(new CannonTower(x, y, enemies, bullets, level));
-                    //towers.add(new CannonTower(x, y, enemies, bullets));
                 }
                 break;
                 case 4:{
                     gameEntities.add(new CatapultTower(x, y, enemies, bullets, level));
-                    //towers.add(new CatapultTower(x, y, enemies, bullets));
                 }
                 break;
             }
@@ -209,7 +194,7 @@ public class GameStage extends MyStage{
         auto.setMinSize(40, 35);
         auto.setLayoutX(5);
         auto.setLayoutY(5);
-        //auto.setStyle("-fx-background-color: transparent;");
+        auto.setStyle("-fx-background-color: transparent;");
         root.getChildren().add(auto);
 
         auto.setOnMouseClicked(some ->{
@@ -231,8 +216,8 @@ public class GameStage extends MyStage{
             );
         }
 
-        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_1/buttons/DefineButton2_221/1.png"), 900, 400, 65, 30);
-        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_1/buttons/DefineButton2_217/1.png"), 900, 435, 40, 30);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_1/buttons/DefineButton2_221/1.png"), 900, 500, 65, 30);
+        gc.drawImage(new Image("file:src/main/java/TowerDefense/AssetsKit_1/buttons/DefineButton2_217/1.png"), 900, 535, 40, 30);
 
         int x = 15;
         String m = toString().valueOf(Config.ballistaCost);
@@ -342,7 +327,7 @@ public class GameStage extends MyStage{
             } else waveInterval--;
         }
 
-        /*
+
         for(int i=0; i<gameEntities.size(); i++){
             for(int j=i+1; j<gameEntities.size(); j++){
                 if(gameEntities.get(i).getY() > gameEntities.get(j).getY()){
@@ -353,7 +338,7 @@ public class GameStage extends MyStage{
             }
         }
 
-         */
+
 
 
         /*
@@ -453,6 +438,7 @@ public class GameStage extends MyStage{
         }
     }
 
+    @Override
     public void render(GraphicsContext gc, Group root){
         renderMap(gc);
         renderBar(gc, root);
@@ -534,8 +520,6 @@ public class GameStage extends MyStage{
         if(!enemies.isEmpty()) {
             if (enemies.get(0).isDead()) {
                 money += enemies.get(0).getPrize();
-                //MediaPlayer mP = new MediaPlayer(Config.towerBuild);
-                //mP.play();
             }
         }
         enemies.removeIf(Enemy::isDead);
@@ -565,17 +549,13 @@ public class GameStage extends MyStage{
 
     }
 
-    public  void reset(boolean bool){
-        if(bool == true) bool = false;
-        else bool = true;
-    }
-
     /*
     public void towerAction(Group group, Scene scene){
         ImageView imageView = new ImageView();
         imageView.setX(600);
         imageView.setY(600);
         group.getChildren().add(imageView);
+
 
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             double X = mouseEvent.getX();
@@ -717,7 +697,8 @@ public class GameStage extends MyStage{
                         bt1.setOnAction(actionEvent -> {
                             System.out.println("Button 1 clicked");
                             ((Tower) tmp).upgrade(GameStage.this);
-                            group.getChildren().removeAll(bt1, bt2);
+                            bt1.setVisible(false);
+                            bt2.setVisible(false);
                         });
 
                         bt2.setOnAction(actionEvent -> {
@@ -725,7 +706,8 @@ public class GameStage extends MyStage{
                             money += ((Tower) tmp).getCost()/2;
                             gameEntities.remove(tmp);
                             imageView.setImage(new Image("file:src/main/java/TowerDefense/AssetsKit_3/towerDefense_trueFilter.png"));
-                            group.getChildren().removeAll(bt1, bt2);
+                            bt1.setVisible(false);
+                            bt2.setVisible(false);
                         });
                     }
                 }
@@ -733,6 +715,7 @@ public class GameStage extends MyStage{
         });
     }
     */
+
 
 
     //public void event(Scene scene){
@@ -746,6 +729,7 @@ public class GameStage extends MyStage{
                 double X = mouseEvent.getX();
                 double Y = mouseEvent.getY();
 
+                //Save Game
                 if (X >= 50 && X <= 75 && Y >= 12 && Y <= 37) {
                     try {
                         saveGame();
@@ -754,6 +738,7 @@ public class GameStage extends MyStage{
                     }
                 }
 
+                //Build, Upgrade or Sell Towers
                 if (eventType == 0) {
                     if (Y >= 597.0 && Y <= 627.0) {
                         if (X >= 31 && X <= 93 && money >= Config.ballistaCost) {
@@ -777,11 +762,13 @@ public class GameStage extends MyStage{
                             money -= Config.catapultCost;
                         }
                     }
-                    if(Y >= 400 && Y <= 430 && X >= 900 && X <= 965){
+                    if(Y >= 500 && Y <= 530 && X >= 900 && X <= 965){
                         eventType = 5;
+                        System.out.println("Upgrade clicked");
                     }
-                    if(Y >= 435 && Y <= 465 && X >= 900 && X <= 940){
+                    if(Y >= 535 && Y <= 565 && X >= 900 && X <= 940){
                         eventType = 6;
+                        System.out.println("Sell clicked");
                     }
                 } else if (eventType == 1) {
                     if (X >= 31 && X <= 93 && Y >= 597.0 && Y <= 627.0) {
@@ -862,7 +849,7 @@ public class GameStage extends MyStage{
                         if (tmp instanceof Tower) {
                             if (((Tower) tmp).inArea(X, Y) && money >= ((Tower) tmp).getUpgradeCost()) {
                                 System.out.println("Button 2 clicked");
-                                money += ((Tower) tmp).getCost()/2;
+                                money += ((Tower) tmp).getCost() / 2;
                                 gameEntities.remove(tmp);
                             }
                         }

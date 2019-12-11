@@ -32,13 +32,11 @@ public class Main extends Application {
         MyStage menu = new MenuStage(stageStack);
         stageStack.push(menu);
 
-
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 stageStack.peek().render(gc, root);
                 stageStack.peek().update();
-                //stageStack.peek().event(scene);
                 stageStack.peek().event(root, scene, gc);
             }
         }.start();

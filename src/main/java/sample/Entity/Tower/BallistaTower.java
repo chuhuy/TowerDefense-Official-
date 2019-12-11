@@ -18,6 +18,8 @@ public class BallistaTower extends Tower{
     final String baseLvl3 = "towerSquare_sampleE_E";
     final String ballista_E = "023";
     double cooldown = Config.ballistaFireRate;
+    double gunnerX = getX() + 102;
+    double gunnerY = getY() + 92;
 
     private List<Enemy> enemies;
     private List<Bullet> bullets;
@@ -87,7 +89,7 @@ public class BallistaTower extends Tower{
 
     @Override
     public void fire(Enemy target) {
-        bullets.add(new BallistaBullet(this.getX() , this.getY() , target));
+        bullets.add(new BallistaBullet(this.getX() , this.getY() -10, target));
         MediaPlayer med = new MediaPlayer(Config.ballista);
         med.setAutoPlay(true);
     }

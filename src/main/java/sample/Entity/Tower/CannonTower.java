@@ -85,7 +85,7 @@ public class CannonTower extends Tower{
 
     @Override
     public void fire(Enemy target) {
-        bullets.add(new CannonBullet(this.getX() , this.getY() , target));
+        bullets.add(new CannonBullet(this.getX() - 5, this.getY() - 10, target));
         MediaPlayer med = new MediaPlayer(Config.cannon);
         med.setAutoPlay(true);
     }

@@ -54,6 +54,11 @@ abstract public class Bullet extends GameEntity {
         this.damage = damage;
     }
 
+    public boolean collapse(Enemy target){
+        if(Math.abs(this.getX() - target.getX()) <= 15 && Math.abs(this.getY() - target.getY()) <= 10) return true;
+        return false;
+    }
+
 
     abstract public void render(GraphicsContext gc);
     abstract public void update();

@@ -64,16 +64,11 @@ abstract public class Tower extends GameEntity{
     }
 
     public boolean inArea(double x, double y){
-        if(x >= (this.getX() + 65) && x <= (this.getX() + this.width - 50) && y >= (this.getY() + 75) && y <= (this.getY() + this.height - 70)) return true;
+        if(x >= (this.getX() + 70) && x <= (this.getX() + this.width - 45) && y >= (this.getY() + 75) && y <= (this.getY() + this.height - 60)) return true;
         return false;
     }
 
     public abstract void upgrade(GameStage stage);
-
-    public void downgrade(GameStage stage){
-        this.setLevel(this.level - 1);
-        stage.setMoney(stage.getMoney() + 10);
-    }
 
     public abstract void fire(Enemy target);
 

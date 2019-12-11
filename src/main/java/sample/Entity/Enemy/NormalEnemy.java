@@ -36,6 +36,7 @@ public class NormalEnemy extends Enemy {
         gc.drawImage(
                 new Image("file:src/main/java/TowerDefense/AssetsKit_3/Isometric/036.png"), x, y, width, height
         );
+        //gc.fillOval(getX()+92, getY()+92, 10, 10);
     }
 
     @Override

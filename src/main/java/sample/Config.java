@@ -25,7 +25,7 @@ public class Config {
     //Tanker Enemy
     public final static double TankerHealth = 100.0;
     public final static double TankerDamage = 5.0;
-    public final static double TankerSpeed = 3.0;
+    public final static double TankerSpeed = 1.0;
     //Smaller Enemy
     public final static double smallerHealth = 25.0;
     public final static double smallerDamage = 15.0;
@@ -43,20 +43,20 @@ public class Config {
     public final static int ballistaUpgradeCost1 = 50;
     public final static int ballistaUpgradeCost2 = 100;
     //Blaster
-    public final static double blasterRange = 3.0;
-    public final static double blasterFireRate = 2.0;
+    public final static double blasterRange = 1.0;
+    public final static double blasterFireRate = 3.0;
     public final static int blasterCost = 100;
     public final static int blasterUpgradeCost1 = 50;
     public final static int blasterUpgradeCost2 = 100;
     //Cannon
     public final static double cannonRange = 2.0;
-    public final static double cannonFireRate = 2.0;
+    public final static double cannonFireRate = 4.0;
     public final static int cannonCost = 65;
     public final static int cannonUpgradeCost1 = 50;
     public final static int cannonUpgradeCost2 = 100;
     //Catapult
-    public final static double catapultRange = 1.0;
-    public final static double catapultFireRate = 1.0;
+    public final static double catapultRange = 2.0;
+    public final static double catapultFireRate = 10.0;
     public final static int catapultCost = 75;
     public final static int catapultUpgradeCost1 = 50;
     public final static int catapultUpgradeCost2 = 100;
@@ -64,22 +64,22 @@ public class Config {
 //Bullet Config
     //Ballista Bullet
     public final static double ballistaSpeed = 2.0;
-    public final static double ballistaDamage = 1.0;
+    public final static double ballistaDamage = 3.0;
     public final static int ballistaLastingTime = 5;
 
     //Blaster Bullet
-    public final static double blasterSpeed = 2.0;
+    public final static double blasterSpeed = 3.0;
     public final static double blasterDamage = 10.0;
     public final static int blasterLastingTime = 5;
 
     //Cannon Bullet
-    public final static double cannonSpeed = 10.0;
-    public final static double cannonDamage = 1.0;
+    public final static double cannonSpeed = 2.0;
+    public final static double cannonDamage = 5.0;
     public final static int cannonLastingTime = 5;
 
     //Catapult Bullet
-    public final static double catapultSpeed = 10.0;
-    public final static double catapultDamage = 1.0;
+    public final static double catapultSpeed = 2.0;
+    public final static double catapultDamage = 10.0;
     public final static int catapultLastingTime = 5;
 
     public final static double bulletSize = 8.0;
@@ -88,7 +88,7 @@ public class Config {
     final static double normalInterval = 10.0;
     public final static double smallerInterval = 10.0;
     public final static double tankerInterval = 10.0;
-    public final static String enemylvl1 = "1111";
+    public final static String enemylvl1 = "3333";
 
 //AutoPlay
     final static int towerRefreshRate = 35;

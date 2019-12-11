@@ -38,7 +38,7 @@ public class BallistaBullet extends Bullet {
 
     @Override
     public void update() {
-        if(lastingTime == 0){
+        if(lastingTime == 0 || this.collapse(target)){
             this.setDisposed(true);
             target.setHealth(target.getHealth() - this.getDamage());
             System.out.println(this.getX() + " " + this.target.getX() + "\n" + this.getY() + " " + this.target.getY());

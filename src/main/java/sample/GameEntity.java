@@ -37,10 +37,6 @@ abstract public class GameEntity {
         return width;
     }
 
-    public boolean collapse(GameEntity gameEntity){
-        return true;
-    }
-
     abstract public void render(GraphicsContext gc);
     abstract public void update();
 }
